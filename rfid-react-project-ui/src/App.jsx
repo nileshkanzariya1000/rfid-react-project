@@ -4,6 +4,7 @@ import ClientRegister from "./ClientPanal/components/clientRegister"
 import HomePage from "./PublicPanal/components/home"
 import Login from "./UserPanal/components/userLogin"
 import Register from "./UserPanal/components/userRegister"
+import AdminLogin from "./AdminPanal/components/adminLogin";
 
 
 
@@ -19,6 +20,7 @@ function App() {
         <Route path="/ClientLogin" element={<ClientLogin />} />
         <Route path="/ClientRegister" element={<ClientRegister />} />
         <Route path="/Register" element={<Register />} />
+        <Route path="/AdminLogin" element={<AdminLogin />} />
       </Routes>
     </Router>
   )

@@ -11,7 +11,7 @@ export default function HomePage() {
     <a href="#" className="hover:text-green-400">Feature</a>
     <a href="#" className="hover:text-green-400">Resource</a>
     <a href="#" className="hover:text-green-400">Pricing</a>
-    <a href="#" className="hover:text-green-400">Admin</a>
+    <a href="/Adminlogin" className="hover:text-green-400">Admin</a>
   </div>
   <div className="space-x-4">
     <button className="bg-green-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
