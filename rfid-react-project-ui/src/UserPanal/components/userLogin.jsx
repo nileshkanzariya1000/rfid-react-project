@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { login } from '../service/api';  // Importing the login function from api.js
-
+import Cookies from 'js-cookie';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -25,6 +25,7 @@ const Login = () => {
 
       if (data.success) {
         setSuccessMessage(data.message || 'Login successful');
+        Cookies.set('user_data', data, { expires: 1 });
         console.log('Login successful:', data);
       } else {
         setError(data.message || 'Login failed');

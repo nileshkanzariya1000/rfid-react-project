@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { login } from '../service/api';
-
+import Cookies from 'js-cookie';
 const AdminLogin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -22,6 +22,7 @@ const AdminLogin = () => {
       const data = await login(username, password);
       if (data.success) {
         setSuccessMessage(data.message || 'Login successful');
+        Cookies.set('admin_data', data, { expires: 1 });
         console.log('Login successful:', data);
       } else {
         setError(data.message || 'Login failed');
@@ -38,7 +39,7 @@ const AdminLogin = () => {
       <div className="max-w-md w-full">
     {/* Welcome and secondary heading */}
     <div className="text-center mt-4">
-      <h3 className="text-2xl font-semibold mb-4">Welcome to User</h3>
+      <h3 className="text-2xl font-semibold mb-4">Welcome to Admin</h3>
       <p className="text-sm text-gray-500">We are happy to have you back</p>
     </div>
           
@@ -92,11 +93,7 @@ const AdminLogin = () => {
 
          
 
-          {/* Divider and Register link */}
-          <div className="my-4 text-center">
-            <hr className="border-t border-gray-300" />
-            <p className="text-sm mt-4">Don't have an account? <a href="/register" className="text-blue-600">Register</a></p>
-          </div>
+         
         </div>
       </div>
 
