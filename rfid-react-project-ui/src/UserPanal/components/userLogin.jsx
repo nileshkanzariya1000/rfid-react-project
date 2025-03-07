@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { login } from '../service/api';  // Importing the login function from api.js
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [agreeTerms, setAgreeTerms] = useState(false);  // State for terms & conditions
-
+  const navigate = useNavigate(); 
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -25,8 +26,8 @@ const Login = () => {
 
       if (data.success) {
         setSuccessMessage(data.message || 'Login successful');
-        Cookies.set('user_data', data, { expires: 1 });
-        console.log('Login successful:', data);
+        Cookies.set('user_data', JSON.stringify(data), { expires: 1 });
+        navigate('/userdashboard');
       } else {
         setError(data.message || 'Login failed');
       }
