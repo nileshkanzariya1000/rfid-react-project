@@ -87,3 +87,29 @@ export const login = async (email, password) => {
         throw new Error(error.message || 'Something went wrong');
     }
 };
+
+
+export const getUserSubjects = async () => {
+  try {
+    const userData = Cookies.get("user_data");
+    if (!userData) throw new Error("User not logged in");
+
+    const { user_id } = JSON.parse(userData);
+    const response = await fetch(`${config.baseURL}/getUserSubjects?user_id=${user_id}`, {
+      method: "GET", // Use GET if it's just fetching data
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      return data; // Return full response (success + data)
+    } else {
+      throw new Error(data.message || "Failed to fetch subjects");
+    }
+  } catch (error) {
+    throw new Error(error.message || "Something went wrong");
+  }
+};

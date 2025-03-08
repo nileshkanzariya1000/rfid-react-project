@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getClientSubjects } from "../service/api";
+import Cookies from 'js-cookie';
 import { 
   Bars3Icon, 
   PencilSquareIcon, 
@@ -16,7 +17,10 @@ const ClientSideNavbar = ({ onSelectItem }) => {
   const [subjectOpen, setSubjectOpen] = useState(true);
   const [selectedItem, setSelectedItem] = useState(""); // Track selected item
   const [subjects, setSubjects] = useState([]); // Store subjects from API
-
+  const clientData = Cookies.get("client_data");
+      if (!clientData) throw new Error("Client not logged in");
+  
+      const { client_name } = JSON.parse(clientData);
   // Fetch subjects when the component mounts
   useEffect(() => {
     async function fetchSubjects() {
@@ -144,7 +148,7 @@ const ClientSideNavbar = ({ onSelectItem }) => {
         <div className="flex items-center bg-gray-800 p-2 rounded-lg">
           <UserIcon className="w-10 h-10 text-white" />
           <div className="ml-3">
-            <p className="font-bold">Nishil Kakadiya</p>
+            <p className="font-bold">{client_name}</p>
             <p className="text-sm text-gray-400">Student</p>
           </div>
         </div>
