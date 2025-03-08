@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getClientSubjects } from "../service/api";
 import { 
   Bars3Icon, 
   PencilSquareIcon, 
@@ -10,12 +11,29 @@ import {
   UserIcon 
 } from "@heroicons/react/24/solid";
 
-
-const UserSideNavbar = ({ onSelectItem }) => {
+const ClientSideNavbar = ({ onSelectItem }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [subjectOpen, setSubjectOpen] = useState(true);
-  const [selectedItem, setSelectedItem] = useState(""); // To track the selected item
-  
+  const [selectedItem, setSelectedItem] = useState(""); // Track selected item
+  const [subjects, setSubjects] = useState([]); // Store subjects from API
+
+  // Fetch subjects when the component mounts
+  useEffect(() => {
+    async function fetchSubjects() {
+      try {
+        const response = await getClientSubjects();
+        if (response.success) {
+          setSubjects(response.data); // Extract `data` from response
+        } else {
+          console.error("Failed to fetch subjects:", response);
+        }
+      } catch (error) {
+        console.error("Error fetching subjects:", error);
+      }
+    }
+
+    fetchSubjects();
+  }, []);
 
   const handleSelectItem = (item) => {
     setSelectedItem(item);
@@ -50,7 +68,7 @@ const UserSideNavbar = ({ onSelectItem }) => {
       {/* Menu Items */}
       <ul className="space-y-3 flex-1">
         <li
-          className={`flex items-center gap-2 cursor-pointer p-2 rounded ${selectedItem === "EditProfile" ? "bg-light-green text-green-500" : "hover:text-green-500"}`}
+          className={`flex items-center gap-2 cursor-pointer p-2 rounded ${selectedItem === "EditProfile" ? "bg-green-500 text-white" : "hover:text-green-500"}`}
           onClick={() => handleSelectItem("EditProfile")}
         >
           <PencilSquareIcon className="w-6 h-6" />
@@ -58,7 +76,7 @@ const UserSideNavbar = ({ onSelectItem }) => {
         </li>
 
         <li
-          className={`flex items-center gap-2 cursor-pointer p-2 rounded ${selectedItem === "EditPassword" ? "bg-light-green text-green-500" : "hover:text-green-500"}`}
+          className={`flex items-center gap-2 cursor-pointer p-2 rounded ${selectedItem === "EditPassword" ? "bg-green-500 text-white" : "hover:text-green-500"}`}
           onClick={() => handleSelectItem("EditPassword")}
         >
           <KeyIcon className="w-6 h-6" />
@@ -67,31 +85,42 @@ const UserSideNavbar = ({ onSelectItem }) => {
 
         {/* View Subject Dropdown */}
         <li>
-          <div
-            className={`flex items-center justify-between cursor-pointer p-2 rounded ${selectedItem === "ViewSubject" ? "bg-light-green text-green-500" : "hover:text-green-500"}`}
-            onClick={() => {
-              handleSelectItem("ViewSubject");
-              setSubjectOpen(!subjectOpen);
-            }}
+  <div
+    className={`flex items-center justify-between cursor-pointer p-2 rounded ${
+      selectedItem === "ViewSubject" ? "bg-green-500 text-white" : "hover:text-green-500"
+    }`}
+    onClick={() => setSubjectOpen(!subjectOpen)}
+  >
+    <span className="flex items-center gap-2">
+      <BookOpenIcon className="w-6 h-6" />
+      {isOpen && <span>View Subject</span>}
+    </span>
+    {isOpen && <span>{subjectOpen ? "▼" : "▶"}</span>}
+  </div>
+  {isOpen && subjectOpen && (
+    <ul className="pl-6 mt-2 space-y-2">
+      {subjects.length > 0 ? (
+        subjects.map((subject) => (
+          <li 
+            key={subject.ct_id} 
+            className={`cursor-pointer p-2 rounded ${
+              selectedItem === subject.subject_name ? "bg-green-500 text-white" : "hover:text-green-400"
+            }`}
+            onClick={() => handleSelectItem(subject.subject_name)}
           >
-            <span className="flex items-center gap-2">
-              <BookOpenIcon className="w-6 h-6" />
-              {isOpen && <span>View Subject</span>}
-            </span>
-            {isOpen && <span>{subjectOpen ? "▼" : "▶"}</span>}
-          </div>
-          {isOpen && subjectOpen && (
-            <ul className="pl-6 mt-2 space-y-2">
-              <li className="hover:text-green-400 cursor-pointer">Science</li>
-              <li className="text-green-500 cursor-pointer">Maths</li>
-              <li className="hover:text-green-400 cursor-pointer">Physics</li>
-              <li className="hover:text-green-400 cursor-pointer">English</li>
-            </ul>
-          )}
-        </li>
+            {subject.subject_name}
+          </li>
+        ))
+      ) : (
+        <li className="text-gray-500">No subjects found</li>
+      )}
+    </ul>
+  )}
+</li>
+
 
         <li
-          className={`flex items-center gap-2 cursor-pointer p-2 rounded ${selectedItem === "AddNewSubject" ? "bg-light-green text-green-500" : "hover:text-green-500"}`}
+          className={`flex items-center gap-2 cursor-pointer p-2 rounded ${selectedItem === "AddNewSubject" ? "bg-green-500 text-white" : "hover:text-green-500"}`}
           onClick={() => handleSelectItem("AddNewSubject")}
         >
           <PlusIcon className="w-6 h-6" />
@@ -102,7 +131,7 @@ const UserSideNavbar = ({ onSelectItem }) => {
       {/* Logout Button */}
       <div className="mb-4">
         <li
-          className={`flex items-center gap-2 cursor-pointer p-2 rounded ${selectedItem === "Logout" ? "bg-light-green text-green-500" : "hover:text-red-500"}`}
+          className={`flex items-center gap-2 cursor-pointer p-2 rounded ${selectedItem === "Logout" ? "bg-red-500 text-white" : "hover:text-red-500"}`}
           onClick={() => handleSelectItem("Logout")}
         >
           <ArrowLeftOnRectangleIcon className="w-6 h-6" />
@@ -124,4 +153,4 @@ const UserSideNavbar = ({ onSelectItem }) => {
   );
 };
 
-export default UserSideNavbar;
+export default ClientSideNavbar;

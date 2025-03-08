@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import UserSideNavbar from "./userSideNavbar";
-import UserEditProfile from "./userEditProfile";
- import UserEditPassword from "./UserEditPassword";
+import ClientSideNavbar from "./clientSideNavbar";
+import ClientEditProfile from "./clientEditProfile";
+import ClientEditPassword from "./clientEditPassword";
+ 
 // import ViewSubject from "./ViewSubject";
 // import AddNewSubject from "./AddNewSubject";
 
-const UserDashboard = () => {
+const ClientDashboard = () => {
   const [selectedItem, setSelectedItem] = useState("Welcome");
 
   const handleSelectItem = (item) => {
@@ -15,13 +16,13 @@ const UserDashboard = () => {
   return (
     <div className="flex h-screen">
       {/* Sidebar (always visible) */}
-      <UserSideNavbar onSelectItem={handleSelectItem} />
+      <ClientSideNavbar onSelectItem={handleSelectItem} />
 
       {/* Main Content Area */}
       <div className="flex-1 p-6 bg-gray-50">
         {/* Conditionally Render the Selected Component */}
-        {selectedItem === "EditProfile" && <UserEditProfile />}
-        {selectedItem === "EditPassword" && <UserEditPassword />}
+        {selectedItem === "EditProfile" && <ClientEditProfile/>}
+        {selectedItem === "EditPassword" && <ClientEditPassword />}
         {/* {selectedItem === "ViewSubject" && <ViewSubject />} */}
         {/* {selectedItem === "AddNewSubject" && <AddNewSubject />} */}
         {selectedItem === "Logout" && (
@@ -40,4 +41,4 @@ const UserDashboard = () => {
   );
 };
 
-export default UserDashboard;
+export default ClientDashboard;

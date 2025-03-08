@@ -54,7 +54,9 @@ export const login = async (email, password) => {
   
       const data = await response.json();
       if (response.ok) {
-        Cookies.set('user_data', JSON.stringify({ "user_id":user_id, "user_name":name,"user_email":email,"user_mobile": mobile }), { expires: 1 });
+        Cookies.set(
+          'user_data', 
+          JSON.stringify({ "user_id":user_id, "user_name":name,"user_email":email,"user_mobile": mobile }), { expires: 1 });
 
         return data;  // Return the full data from the API (success or error message, etc.)
       } else {
@@ -65,3 +67,23 @@ export const login = async (email, password) => {
     }
   };
   
+  export const updateUserPassword = async (user_id, current_password, new_password) => {
+    try {
+        const response = await fetch(`${config.baseURL}/userChangePassword`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ user_id, current_password, new_password }),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            return data;  // Return success response from API
+        } else {
+            throw new Error(data.message || 'Password update failed');
+        }
+    } catch (error) {
+        throw new Error(error.message || 'Something went wrong');
+    }
+};

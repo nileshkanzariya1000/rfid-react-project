@@ -1,42 +1,128 @@
 import config from '../../config';
+import Cookies from 'js-cookie';
+
+
 export const login = async (email, password) => {
-    try {
-      const response = await fetch(`${config.baseURL}/clientLogin`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
+  try {
+    const response = await fetch(`${config.baseURL}/clientLogin`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await response.json();
+    
+    if (response.ok) {
+      // Store client details in cookies (optional)
+      Cookies.set('client_data', JSON.stringify(data.client), { expires: 1 });
+
+      return data;  // Return success response
+    } else {
+      throw new Error(data.message || 'Login failed');
+    }
+  } catch (error) {
+    throw new Error(error.message || 'Something went wrong');
+  }
+};
+
+export const register = async (name, email, password, mobile) => {
+  try {
+    const response = await fetch(`${config.baseURL}/clientRegister`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name, email, password, mobile }),
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      return data;  // Return the full data from the API (success or error message, etc.)
+    } else {
+      throw new Error(data.message || 'Registration failed');
+    }
+  } catch (error) {
+    throw new Error(error.message || 'Something went wrong');
+  }
+};
+
+export const updateClient = async (client_id, name, email, mobile) => {
+  try {
+    const response = await fetch(`${config.baseURL}/clientUpdate`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ client_id, name, email, mobile }),
+    });
+
+    
+
+    const data = await response.json();
+    if (!response.ok) {
+      return data;
+    }
+    Cookies.set(
+      'client_data',
+      JSON.stringify({
+        "client_id": client_id,
+        "client_name": name,
+        "client_email": email,
+        "client_mobile": mobile,
+      }),
+      { expires: 1 }
+    );
+
+    return data;
+  } catch (error) {
+    throw new Error(error.message || 'Something went wrong');
+  }
+};
+
+export const updateClientPassword = async (client_id, current_password, new_password) => {
+  try {
+      const response = await fetch(`${config.baseURL}/clientChangePassword`, {
+          method: 'PUT',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ client_id, current_password, new_password }),
       });
-  
+
       const data = await response.json();
       if (response.ok) {
-        return data;  // Return the full data from the API (success or error message, etc.)
+          return data;  // Return success response from API
       } else {
-        throw new Error(data.message || 'Login failed');
+          return data;
       }
-    } catch (error) {
+  } catch (error) {
       throw new Error(error.message || 'Something went wrong');
+  }
+};
+
+export const getClientSubjects = async () => {
+  try {
+    const clientData = Cookies.get("client_data");
+    if (!clientData) throw new Error("Client not logged in");
+
+    const { client_id } = JSON.parse(clientData);
+    const response = await fetch(`${config.baseURL}/getClientSubjects?client_id=${client_id}`, {
+      method: "GET", // Use GET if it's just fetching data
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      return data; // Return full response (success + data)
+    } else {
+      throw new Error(data.message || "Failed to fetch subjects");
     }
-  };
-  
-  export const register = async (name, email, password, mobile) => {
-    try {
-      const response = await fetch(`${config.baseURL}/clientRegister`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, email, password, mobile }),
-      });
-  
-      const data = await response.json();
-      if (response.ok) {
-        return data;  // Return the full data from the API (success or error message, etc.)
-      } else {
-        throw new Error(data.message || 'Registration failed');
-      }
-    } catch (error) {
-      throw new Error(error.message || 'Something went wrong');
-    }
-  };
+  } catch (error) {
+    throw new Error(error.message || "Something went wrong");
+  }
+};
