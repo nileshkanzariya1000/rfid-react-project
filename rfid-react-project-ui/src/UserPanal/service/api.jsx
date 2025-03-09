@@ -81,7 +81,9 @@ export const login = async (email, password) => {
         if (response.ok) {
             return data;  // Return success response from API
         } else {
-            throw new Error(data.message || 'Password update failed');
+          
+          return data;  // Return success response from API
+
         }
     } catch (error) {
         throw new Error(error.message || 'Something went wrong');
@@ -113,3 +115,31 @@ export const getUserSubjects = async () => {
     throw new Error(error.message || "Something went wrong");
   }
 };
+
+export const getUserSubjectDetails = async (user_id, ct_id) => {
+  try {
+    if (!user_id || !ct_id) throw new Error("Missing required parameters");
+
+    const response = await fetch(`${config.baseURL}/getUserSubjectDetalis?user_id=${user_id}&ct_id=${ct_id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      return data; // Return full response (success + data)
+    } else {
+      throw new Error(data.message || "Failed to fetch subject details");
+    }
+  } catch (error) {
+    throw new Error(error.message || "Something went wrong");
+  }
+};
+
+
+
+
+
