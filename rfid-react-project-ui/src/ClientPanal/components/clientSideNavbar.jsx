@@ -12,7 +12,7 @@ import {
   UserIcon 
 } from "@heroicons/react/24/solid";
 
-const ClientSideNavbar = ({ onSelectItem }) => {
+const ClientSideNavbar = ({ onSelectItem,onSelectSubject }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [subjectOpen, setSubjectOpen] = useState(true);
   const [selectedItem, setSelectedItem] = useState(""); // Track selected item
@@ -89,38 +89,34 @@ const ClientSideNavbar = ({ onSelectItem }) => {
 
         {/* View Subject Dropdown */}
         <li>
-  <div
-    className={`flex items-center justify-between cursor-pointer p-2 rounded ${
-      selectedItem === "ViewSubject" ? "bg-green-500 text-white" : "hover:text-green-500"
-    }`}
-    onClick={() => setSubjectOpen(!subjectOpen)}
-  >
-    <span className="flex items-center gap-2">
-      <BookOpenIcon className="w-6 h-6" />
-      {isOpen && <span>View Subject</span>}
-    </span>
-    {isOpen && <span>{subjectOpen ? "▼" : "▶"}</span>}
-  </div>
-  {isOpen && subjectOpen && (
-    <ul className="pl-6 mt-2 space-y-2">
-      {subjects.length > 0 ? (
-        subjects.map((subject) => (
-          <li 
-            key={subject.ct_id} 
-            className={`cursor-pointer p-2 rounded ${
-              selectedItem === subject.subject_name ? "bg-green-500 text-white" : "hover:text-green-400"
-            }`}
-            onClick={() => handleSelectItem(subject.subject_name)}
+          <div
+            className={`flex items-center justify-between cursor-pointer p-2 rounded ${selectedItem === "ViewSubject" ? "bg-green-500 text-white" : "hover:text-green-500"}`}
+            onClick={() => setSubjectOpen(!subjectOpen)}
           >
-            {subject.subject_name}
-          </li>
-        ))
-      ) : (
-        <li className="text-gray-500">No subjects found</li>
-      )}
-    </ul>
-  )}
-</li>
+            <span className="flex items-center gap-2">
+              <BookOpenIcon className="w-6 h-6" />
+              {isOpen && <span>View Subject</span>}
+            </span>
+            {isOpen && <span>{subjectOpen ? "▼" : "▶"}</span>}
+          </div>
+          {isOpen && subjectOpen && (
+            <ul className="pl-6 mt-2 space-y-2">
+              {subjects.length > 0 ? (
+                subjects.map((subject) => (
+                  <li 
+                    key={subject.ct_id} 
+                    className={`cursor-pointer p-2 rounded ${selectedItem === subject.subject_name ? "bg-green-500 text-white" : "hover:text-green-400"}`}
+                    onClick={() => onSelectSubject(subject.ct_id, subject.subject_name)} // Pass subject details to parent component
+                  >
+                    {subject.subject_name}
+                  </li>
+                ))
+              ) : (
+                <li className="text-gray-500">No subjects found</li>
+              )}
+            </ul>
+          )}
+        </li>
 
 
         <li
