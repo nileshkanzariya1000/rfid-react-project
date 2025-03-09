@@ -127,4 +127,24 @@ export const getClientSubjects = async () => {
   }
 };
 
+export const getClientSubjectDetails = async (ct_id) => {
+  try {
+    const response = await fetch(`${config.baseURL}/getClientSubjectDetails?ct_id=${ct_id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      return data;  // Return full response with subject details
+    } else {
+      throw new Error(data.message || 'Failed to fetch subject details');
+    }
+  } catch (error) {
+    throw new Error(error.message || 'Something went wrong');
+  }
+};
 
