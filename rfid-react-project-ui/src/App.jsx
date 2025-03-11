@@ -12,8 +12,8 @@ import UserEditPassword from "./UserPanal/components/UserEditPassword";
 import ClientDashboard from "./ClientPanal/components/clientDashboard";
 import ClientSideNavbar from "./ClientPanal/components/clientSideNavbar";
 import ClientEditProfile from "./ClientPanal/components/clientEditProfile";
-
-
+import ClientEditPassword from "./ClientPanal/components/clientEditPassword";
+import ClientSubject from "./ClientPanal/components/clientSubject";
 function App() {
   
 
@@ -30,9 +30,15 @@ function App() {
         <Route path="/UserSideNavbar" element={<UserSideNavbar />} />
         <Route path="/UserEditProfile" element={<UserEditProfile />} />
         <Route path="/UserEditPassword" element={<UserEditPassword />} />
-        <Route path="/ClientDashboard" element={<ClientDashboard />} />
+
+        <Route path="/ClientDashboard" element={<ClientDashboard />}>
+        <Route path="ClientEditProfile" element={<ClientEditProfile />} />
+        <Route path="ClientEditPassword" element={<ClientEditPassword />} />
+        <Route path="subject/:subjectId/:subjectName" element={<ClientSubject />} />
+        </Route>
+
         <Route path="/ClientSideNavbar" element={<ClientSideNavbar />} />
-        <Route path="/ClientEditProfile" element={<ClientEditProfile />} />
+    
         
 
       
