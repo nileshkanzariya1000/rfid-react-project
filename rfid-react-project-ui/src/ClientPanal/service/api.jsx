@@ -148,3 +148,94 @@ export const getClientSubjectDetails = async (ct_id) => {
   }
 };
 
+export const getUserWhichInSubject = async (ct_id) => {
+  try {
+    const response = await fetch(`${config.baseURL}/getUserWhichInSubject?ct_id=${ct_id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      return data;  // Return full response with user details in the subject
+    } else {
+      throw new Error(data.message || 'Failed to fetch user details for subject');
+    }
+  } catch (error) {
+    throw new Error(error.message || 'Something went wrong');
+  }
+};
+
+export const editUserInSubject = async (ct_id, designation, user_id,rfid) => {
+  try {
+      const response = await fetch(`${config.baseURL}/editUserInsubject`, {
+          method: 'PUT',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ ct_id, designation, user_id,rfid }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+          return data;  // Return success response from API
+      } else {
+          return data;
+      }
+  } catch (error) {
+      throw new Error(error.message || 'Something went wrong');
+  }
+};
+
+export const addUserInSubject = async (user_id,ct_id,designation,rfid) => {
+  try {
+    const clientData = Cookies.get("client_data");
+    if (!clientData) throw new Error("Client not logged in");
+    const { client_id } = JSON.parse(clientData);
+
+      const response = await fetch(`${config.baseURL}/addUserSubject`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ user_id, client_id, ct_id,designation,rfid}),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+          return data;  // Return success response from API
+      } else {
+          return data;
+      }
+  } catch (error) {
+      throw new Error(error.message || 'Something went wrong');
+  }
+};
+
+export const deleteUserFromSubject = async (user_id, ct_id) => {
+  try {
+    const clientData = Cookies.get("client_data");
+    if (!clientData) throw new Error("Client not logged in");
+    const { client_id } = JSON.parse(clientData);
+
+    const response = await fetch(`${config.baseURL}/deleteUserFromSubject`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ user_id, client_id, ct_id }),
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      return data;  // Return success response from API
+    } else {
+      return data;
+    }
+  } catch (error) {
+    throw new Error(error.message || 'Something went wrong');
+  }
+};

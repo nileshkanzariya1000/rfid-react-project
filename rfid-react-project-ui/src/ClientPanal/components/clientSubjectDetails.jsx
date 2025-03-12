@@ -44,22 +44,23 @@ const ClientSubjectDetail = ({ ct_id, subject_name }) => {
     <div className="p-6 bg-white rounded-lg shadow-lg">
       {/* Show this button only when not in 'SubjectUserList' path */}
       {!isOutletShown && (
+         <div className="flex justify-between items-center p-4">
+        <h1 className="text-xl font-semibold">{subject_name}</h1>
         <Link to={`SubjectUserList/${encodeURIComponent(ct_id)}`}>
         <button
-          className="absolute top-15 right-15 px-4 py-2 bg-blue-500 text-white rounded-full"
+          className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
         >
           Users
         </button>
       </Link>
+      </div>
       
       )}
 
       {/* Conditionally render the subject details */}
       {!isOutletShown && (
         <>
-          <p className="mt-4">
-            <strong>{subject_name}</strong>
-          </p>
+          
 
           <div className="mt-4">
             <h3 className="text-xl font-semibold">Token Details</h3>
