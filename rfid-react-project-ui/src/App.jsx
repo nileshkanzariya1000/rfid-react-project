@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import ClientLogin from "./ClientPanal/components/clientLogin"
-import ClientRegister from "./ClientPanal/components/clientRegister"
-import HomePage from "./PublicPanal/components/home"
-import Login from "./UserPanal/components/userLogin"
-import Register from "./UserPanal/components/userRegister"
+import ClientLogin from "./ClientPanal/components/clientLogin";
+import ClientRegister from "./ClientPanal/components/clientRegister";
+import HomePage from "./PublicPanal/components/home";
+import Login from "./UserPanal/components/userLogin";
+import Register from "./UserPanal/components/userRegister";
 import AdminLogin from "./AdminPanal/components/adminLogin";
 import UserDashboard from "./UserPanal/components/userDashboard";
 import UserSideNavbar from "./UserPanal/components/userSideNavbar";
@@ -15,41 +15,40 @@ import ClientEditProfile from "./ClientPanal/components/clientEditProfile";
 import ClientEditPassword from "./ClientPanal/components/clientEditPassword";
 import ClientSubject from "./ClientPanal/components/clientSubject";
 import SubjectUserList from "./ClientPanal/components/subjectUserList";
-function App() {
-  
+import AdminDashboard from "./AdminPanal/components/adminDashboard";
 
+function App() {
   return (
     <Router>
       <Routes>
-        {/* public route */}
-        <Route path="/AdminLogin" element={<AdminLogin />} />
+        {/* Public routes */}
         <Route path="/" element={<HomePage />} />
+        <Route path="/AdminLogin" element={<AdminLogin />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/ClientLogin" element={<ClientLogin />} />
         <Route path="/ClientRegister" element={<ClientRegister />} />
         <Route path="/Register" element={<Register />} />
-        {/* user route */}
+
+        {/* User routes */}
         <Route path="/UserDashboard" element={<UserDashboard />} />
         <Route path="/UserSideNavbar" element={<UserSideNavbar />} />
         <Route path="/UserEditProfile" element={<UserEditProfile />} />
         <Route path="/UserEditPassword" element={<UserEditPassword />} />
-        {/* client route */}
+
+        {/* Client routes */}
         <Route path="/ClientDashboard" element={<ClientDashboard />}>
           <Route path="ClientEditProfile" element={<ClientEditProfile />} />
           <Route path="ClientEditPassword" element={<ClientEditPassword />} />
-          <Route path="subject/:subjectId/:subjectName" element={<ClientSubject />} >
+          <Route path="subject/:subjectId/:subjectName" element={<ClientSubject />}>
             <Route path="SubjectUserList/:ct_id" element={<SubjectUserList />} />
           </Route>
         </Route>
 
-        
-    
-        
-
-      
+        {/* Admin route (Moved outside of ClientDashboard) */}
+        <Route path="/Admindashboard" element={<AdminDashboard />} />
       </Routes>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;
