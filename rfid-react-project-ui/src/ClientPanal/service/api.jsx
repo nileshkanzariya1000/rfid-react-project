@@ -239,3 +239,28 @@ export const deleteUserFromSubject = async (user_id, ct_id) => {
     throw new Error(error.message || 'Something went wrong');
   }
 };
+
+export const editedSubject = async (subject_name,ct_id) => {
+  try {
+    const clientData = Cookies.get("client_data");
+    if (!clientData) throw new Error("Client not logged in");
+    const { client_id } = JSON.parse(clientData);
+
+      const response = await fetch(`${config.baseURL}/editSubject`, {
+          method: 'PUT',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ subject_name, client_id, ct_id}),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+          return data;  // Return success response from API
+      } else {
+          return data;
+      }
+  } catch (error) {
+      throw new Error(error.message || 'Something went wrong');
+  }
+};
