@@ -34,7 +34,7 @@ const ClientSubjectDetail = ({ ct_id, subject_name }) => {
   }, [subject_name]);
 
   // Check if Outlet is showing
-  const isOutletShown = location.pathname.includes('SubjectUserList');
+  const isOutletShown = location.pathname.includes('SubjectUserList') || location.pathname.includes('UpdateTokenForClient');
 
   if (loading) {
     return <p>Loading...</p>;
@@ -87,6 +87,11 @@ const ClientSubjectDetail = ({ ct_id, subject_name }) => {
               Users
             </button>
           </Link>
+          <Link to={`UpdateTokenForClient/${encodeURIComponent(ct_id)}`}>
+            <button className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-green-600">
+              Upade token
+            </button>
+          </Link>
           <button 
             onClick={handleEditSubject}
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
@@ -110,7 +115,7 @@ const ClientSubjectDetail = ({ ct_id, subject_name }) => {
             <tbody>
               <tr className="border-b">
                 <td className="px-4 py-2 font-semibold">Pass Key</td>
-                <td className="px-4 py-2">{subjectDetails.pass_key}</td>
+                <td className="px-4 py-2 text-green-500">{subjectDetails.pass_key}</td>
               </tr>
               <tr className="border-b">
                 <td className="px-4 py-2 font-semibold">Purchase Date</td>
@@ -118,7 +123,8 @@ const ClientSubjectDetail = ({ ct_id, subject_name }) => {
               </tr>
               <tr className="border-b">
                 <td className="px-4 py-2 font-semibold">Expire Date</td>
-                <td className="px-4 py-2">{subjectDetails.expire_date}</td>
+                <td className="px-4 py-2 font-bold text-red-500">{subjectDetails.expire_date}</td>
+
               </tr>
               <tr className="border-b">
                 <td className="px-4 py-2 font-semibold">Price</td>

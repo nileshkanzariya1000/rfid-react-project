@@ -18,6 +18,8 @@ import SubjectUserList from "./ClientPanal/components/subjectUserList";
 import AdminDashboard from "./AdminPanal/components/adminDashboard";
 import AddNewSubject from "./ClientPanal/components/addNewSubject";
 import ProcideToAdd from "./ClientPanal/components/procideToAdd";
+import UpdateTokenForClient from "./ClientPanal/components/updateTokenForClient";
+import ProcideToUpdate from "./ClientPanal/components/procideToUpdate";
 function App() {
   return (
     <Router>
@@ -45,6 +47,9 @@ function App() {
           </Route>
           <Route path="subject/:subjectId/:subjectName" element={<ClientSubject />}>
             <Route path="SubjectUserList/:ct_id" element={<SubjectUserList />} />
+            <Route path="UpdateTokenForClient/:ct_id" element={<UpdateTokenForClient />}>
+            <Route path="ProcideToUpdate/:token_id" element={<ProcideToUpdate />}/>
+            </Route>
           </Route>
         </Route>
 

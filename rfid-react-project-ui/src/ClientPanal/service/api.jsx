@@ -332,3 +332,24 @@ export const addNewSubject = async (token_id, pass_key, status, purchase_date, e
       throw new Error(error.message || 'Something went wrong');
   }
 };
+
+export const updateTokenForClient = async (ct_id, token_id) => {
+  try {
+      const response = await fetch(`${config.baseURL}/updateToken`, {
+          method: 'PUT',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ct_id, token_id}),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+          return data;  // Return success response from API
+      } else {
+          return data;
+      }
+  } catch (error) {
+      throw new Error(error.message || 'Something went wrong');
+  }
+};
