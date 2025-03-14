@@ -16,7 +16,8 @@ import ClientEditPassword from "./ClientPanal/components/clientEditPassword";
 import ClientSubject from "./ClientPanal/components/clientSubject";
 import SubjectUserList from "./ClientPanal/components/subjectUserList";
 import AdminDashboard from "./AdminPanal/components/adminDashboard";
-
+import AddNewSubject from "./ClientPanal/components/addNewSubject";
+import ProcideToAdd from "./ClientPanal/components/procideToAdd";
 function App() {
   return (
     <Router>
@@ -39,6 +40,9 @@ function App() {
         <Route path="/ClientDashboard" element={<ClientDashboard />}>
           <Route path="ClientEditProfile" element={<ClientEditProfile />} />
           <Route path="ClientEditPassword" element={<ClientEditPassword />} />
+          <Route path="AddNewSubject" element={<AddNewSubject />} >
+          <Route path="ProcideToAdd/:token_id" element={<ProcideToAdd />}/>  
+          </Route>
           <Route path="subject/:subjectId/:subjectName" element={<ClientSubject />}>
             <Route path="SubjectUserList/:ct_id" element={<SubjectUserList />} />
           </Route>

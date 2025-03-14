@@ -32,7 +32,7 @@ const [userToDelete, setUserToDelete] = useState(null);
         if (data.success) {
           setUsers(data.data); // Set the user data if successful
         } else {
-          setError('Failed to fetch user data');
+          setError(data.message);
         }
       } catch (err) {
         setError(err.message || 'Something went wrong');
@@ -109,6 +109,7 @@ const [userToDelete, setUserToDelete] = useState(null);
       if (result.success) {
         
         setIsAddModalOpen(false);
+        window.location.reload();
       } else {
         setError(result.message);
       }

@@ -162,7 +162,7 @@ export const getUserWhichInSubject = async (ct_id) => {
     if (response.ok) {
       return data;  // Return full response with user details in the subject
     } else {
-      throw new Error(data.message || 'Failed to fetch user details for subject');
+      return data;
     }
   } catch (error) {
     throw new Error(error.message || 'Something went wrong');
@@ -252,6 +252,74 @@ export const editedSubject = async (subject_name,ct_id) => {
               'Content-Type': 'application/json',
           },
           body: JSON.stringify({ subject_name, client_id, ct_id}),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+          return data;  // Return success response from API
+      } else {
+          return data;
+      }
+  } catch (error) {
+      throw new Error(error.message || 'Something went wrong');
+  }
+};
+
+export const getTokensForClient = async () => {
+  try {
+    
+
+      const response = await fetch(`${config.baseURL}/getTokensForClient`, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+          }
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+          return data;  // Return success response from API
+      } else {
+          return data;
+      }
+  } catch (error) {
+      throw new Error(error.message || 'Something went wrong');
+  }
+};
+
+export const getTokenById = async (token_id) => {
+  try {
+    const response = await fetch(`${config.baseURL}/getTokenById?token_id=${token_id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      return data;  // Return full response with user details in the subject
+    } else {
+      throw new Error(data.message || 'Failed to fetch user details for subject');
+    }
+  } catch (error) {
+    throw new Error(error.message || 'Something went wrong');
+  }
+};
+
+export const addNewSubject = async (token_id, pass_key, status, purchase_date, expire_date ,subject_name) => {
+  try {
+    const clientData = Cookies.get("client_data");
+    if (!clientData) throw new Error("Client not logged in");
+    const { client_id } = JSON.parse(clientData);
+
+      const response = await fetch(`${config.baseURL}/addNewSubject`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ token_id, pass_key, status, purchase_date, expire_date ,subject_name,client_id}),
       });
 
       const data = await response.json();

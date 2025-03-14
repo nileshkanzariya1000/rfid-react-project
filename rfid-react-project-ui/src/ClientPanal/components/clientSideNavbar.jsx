@@ -93,7 +93,7 @@ const ClientSideNavbar = () => {
 
         <li className="flex items-center gap-2 cursor-pointer p-2 rounded hover:text-green-500">
           <PlusIcon className="w-6 h-6" />
-          {isOpen && <span>Add New Subject</span>}
+          {isOpen && <Link to="AddNewSubject"> <span>Add New Subject</span></Link>}
         </li>
       </ul>
 
