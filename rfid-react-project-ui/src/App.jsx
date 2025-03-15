@@ -10,7 +10,6 @@ import UserSideNavbar from "./UserPanal/components/userSideNavbar";
 import UserEditProfile from "./UserPanal/components/userEditProfile";
 import UserEditPassword from "./UserPanal/components/UserEditPassword"; 
 import ClientDashboard from "./ClientPanal/components/clientDashboard";
-import ClientSideNavbar from "./ClientPanal/components/clientSideNavbar";
 import ClientEditProfile from "./ClientPanal/components/clientEditProfile";
 import ClientEditPassword from "./ClientPanal/components/clientEditPassword";
 import ClientSubject from "./ClientPanal/components/clientSubject";
@@ -21,6 +20,9 @@ import ProcideToAdd from "./ClientPanal/components/procideToAdd";
 import UpdateTokenForClient from "./ClientPanal/components/updateTokenForClient";
 import ProcideToUpdate from "./ClientPanal/components/procideToUpdate";
 import ViewAttendanceBySubject from "./ClientPanal/components/viewAttendanceBySubject";
+import ManageClients from "./AdminPanal/components/manageClients";
+import ManageUsers from "./AdminPanal/components/manageUsers";
+import AdminEditPassword from "./AdminPanal/components/adminEditPassword";
 function App() {
   return (
     <Router>
@@ -56,7 +58,11 @@ function App() {
         </Route>
 
         {/* Admin route (Moved outside of ClientDashboard) */}
-        <Route path="/Admindashboard" element={<AdminDashboard />} />
+        <Route path="/Admindashboard" element={<AdminDashboard />}>
+          <Route path="AdminEditPassword" element={<AdminEditPassword />} />
+          <Route path="ManageUsers" element={<ManageUsers />} />
+          <Route path="ManageClients" element={<ManageClients />} />
+        </Route>
       </Routes>
     </Router>
   );

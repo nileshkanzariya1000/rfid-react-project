@@ -54,63 +54,25 @@ const AdminSideNavbar = () => {
 
       {/* Navigation Links */}
       <ul className="space-y-3 flex-1">
-        <li>
-          <Link to="/dashboard"
-            className={`flex items-center gap-2 p-2 rounded w-full ${selectedItem === "Dashboard" ? "bg-green-500 text-white" : "hover:text-green-500"}`}
-            onClick={() => setSelectedItem("Dashboard")}
-          >
-            <Squares2X2Icon className="w-6 h-6" />
-            {isOpen && <span>Dashboard</span>}
-          </Link>
-        </li>
+
 
         <li>
-          <Link to="/students"
+          <Link to="ManageUsers"
             className={`flex items-center gap-2 p-2 rounded w-full ${selectedItem === "Manage Students" ? "bg-green-500 text-white" : "hover:text-green-500"}`}
             onClick={() => setSelectedItem("Manage Students")}
           >
             <UserGroupIcon className="w-6 h-6" />
-            {isOpen && <span>Manage Students</span>}
+            {isOpen && <span>Manage Users</span>}
           </Link>
         </li>
 
         <li>
-          <Link to="/teachers"
+          <Link to="ManageClients"
             className={`flex items-center gap-2 p-2 rounded w-full ${selectedItem === "Manage Teacher" ? "bg-green-500 text-white" : "hover:text-green-500"}`}
             onClick={() => setSelectedItem("Manage Teacher")}
           >
             <ClipboardDocumentListIcon className="w-6 h-6" />
-            {isOpen && <span>Manage Teacher</span>}
-          </Link>
-        </li>
-
-        <li>
-          <Link to="/subjects"
-            className={`flex items-center gap-2 p-2 rounded w-full ${selectedItem === "Manage Subject" ? "bg-green-500 text-white" : "hover:text-green-500"}`}
-            onClick={() => setSelectedItem("Manage Subject")}
-          >
-            <BookOpenIcon className="w-6 h-6" />
-            {isOpen && <span>Manage Subject</span>}
-          </Link>
-        </li>
-
-        <li>
-          <Link to="/attendance"
-            className={`flex items-center gap-2 p-2 rounded w-full ${selectedItem === "Attendance Manage" ? "bg-green-500 text-white" : "hover:text-green-500"}`}
-            onClick={() => setSelectedItem("Attendance Manage")}
-          >
-            <CalendarDaysIcon className="w-6 h-6" />
-            {isOpen && <span>Manage Attendance</span>}
-          </Link>
-        </li>
-
-        <li>
-          <Link to="/report"
-            className={`flex items-center gap-2 p-2 rounded w-full ${selectedItem === "Report" ? "bg-green-500 text-white" : "hover:text-green-500"}`}
-            onClick={() => setSelectedItem("Report")}
-          >
-            <DocumentTextIcon className="w-6 h-6" />
-            {isOpen && <span>Report</span>}
+            {isOpen && <span>Manage Clients</span>}
           </Link>
         </li>
 
@@ -125,17 +87,17 @@ const AdminSideNavbar = () => {
         </li>
 
         <li>
-          <Link to="/settings"
+          <Link to="/purchasedTokens"
             className={`flex items-center gap-2 p-2 rounded w-full ${selectedItem === "Settings" ? "bg-green-500 text-white" : "hover:text-green-500"}`}
             onClick={() => setSelectedItem("Settings")}
           >
             <Cog6ToothIcon className="w-6 h-6" />
-            {isOpen && <span>Settings</span>}
+            {isOpen && <span>Purchased Tokens</span>}
           </Link>
         </li>
 
         <li>
-          <Link to="/editpassword"
+          <Link to="AdminEditPassword"
             className={`flex items-center gap-2 p-2 rounded w-full ${selectedItem === "EditPassword" ? "bg-green-500 text-white" : "hover:text-green-500"}`}
             onClick={() => setSelectedItem("EditPassword")}
           >

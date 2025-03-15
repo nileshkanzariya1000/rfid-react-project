@@ -1,27 +1,16 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
-import AdminSideNavbar from './adminSideNavbar';  // Correct import
+// Dashboard.jsx
+import React from "react";
+import AdminSideNavbar from "./adminSideNavbar";
+import { Outlet } from "react-router-dom";
 
 const AdminDashboard = () => {
-  const navigate = useNavigate();
-  
-  useEffect(() => {
-    const adminData = Cookies.get('admin_data');
-    if (!adminData) {
-      navigate('/login');
-    }
-  }, [navigate]);
-
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      {/* Sidebar */}
-      <AdminSideNavbar />  {/* Use the correct component */}
-      
-      {/* Main content */}
-      <div className="flex-1 p-8">
-        <h1 className="text-2xl font-semibold mb-6">Welcome to Admin Dashboard</h1>
-
+    <div className="flex min-h-screen">
+      <AdminSideNavbar />
+      <div className="flex-1 p-6 bg-gray-100">
+        <h1 className="text-2xl font-semibold">Admin Dashboard</h1>
+        {/* Render nested routes here */}
+        <Outlet />
       </div>
     </div>
   );
