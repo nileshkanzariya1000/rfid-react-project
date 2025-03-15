@@ -34,7 +34,7 @@ const ClientSubjectDetail = ({ ct_id, subject_name }) => {
   }, [subject_name]);
 
   // Check if Outlet is showing
-  const isOutletShown = location.pathname.includes('SubjectUserList') || location.pathname.includes('UpdateTokenForClient');
+  const isOutletShown = location.pathname.includes('SubjectUserList') || location.pathname.includes('UpdateTokenForClient') || location.pathname.includes('ViewAttendanceBySubject');
 
   if (loading) {
     return <p>Loading...</p>;
@@ -98,6 +98,11 @@ const ClientSubjectDetail = ({ ct_id, subject_name }) => {
           >
             Edit Subject
           </button>
+          <Link to={`ViewAttendanceBySubject/${encodeURIComponent(ct_id)}`}>
+            <button className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-green-600">
+              Attendance
+            </button>
+          </Link>
         </div>
       )}
 

@@ -353,3 +353,25 @@ export const updateTokenForClient = async (ct_id, token_id) => {
       throw new Error(error.message || 'Something went wrong');
   }
 };
+
+export const getPunchRecordBySubject = async (ct_id,from_date,to_date) => {
+  try {
+   
+    const response = await fetch(`${config.baseURL}/getPunchRecordBySubject?ct_id=${ct_id}&from_date=${from_date}&to_date=${to_date}`, {
+      method: "GET", // Use GET if it's just fetching data
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      return data; // Return full response (success + data)
+    } else {
+      return data;
+    }
+  } catch (error) {
+    throw new Error(error.message || "Something went wrong");
+  }
+};

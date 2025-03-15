@@ -20,6 +20,7 @@ import AddNewSubject from "./ClientPanal/components/addNewSubject";
 import ProcideToAdd from "./ClientPanal/components/procideToAdd";
 import UpdateTokenForClient from "./ClientPanal/components/updateTokenForClient";
 import ProcideToUpdate from "./ClientPanal/components/procideToUpdate";
+import ViewAttendanceBySubject from "./ClientPanal/components/viewAttendanceBySubject";
 function App() {
   return (
     <Router>
@@ -47,6 +48,7 @@ function App() {
           </Route>
           <Route path="subject/:subjectId/:subjectName" element={<ClientSubject />}>
             <Route path="SubjectUserList/:ct_id" element={<SubjectUserList />} />
+            <Route path="ViewAttendanceBySubject/:ct_id" element={<ViewAttendanceBySubject />} />
             <Route path="UpdateTokenForClient/:ct_id" element={<UpdateTokenForClient />}>
             <Route path="ProcideToUpdate/:token_id" element={<ProcideToUpdate />}/>
             </Route>
