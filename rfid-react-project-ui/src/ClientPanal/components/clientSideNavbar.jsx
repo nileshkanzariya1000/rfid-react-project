@@ -14,13 +14,13 @@ import {
 } from "@heroicons/react/24/solid";
 import { getClientSubjects } from "../service/api"; // Importing the API call
 
-const ClientSideNavbar = () => {
-  const [isOpen, setIsOpen] = useState(true); // State to manage sidebar open/close
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State to manage dropdown open/close
+const ClientSideNavbar = ({ isOpen, setIsOpen }) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(true); // State to manage dropdown open/close
   const [subjects, setSubjects] = useState([]); // State to store the fetched subjects
   const [selectedMenu, setSelectedMenu] = useState(null); // State to track the selected menu item
   const { client_name } = JSON.parse(Cookies.get("client_data") || '{}');
   if (!client_name) throw new Error("Client not logged in");
+
   // Function to toggle dropdown visibility
   const toggleDropdown = () => {
     setIsDropdownOpen(prevState => !prevState); // Toggle the dropdown open/close state
@@ -50,8 +50,13 @@ const ClientSideNavbar = () => {
     setSelectedMenu(subjectId); // Set the selected subject
   };
 
+  const handleLogout = () => {
+    Cookies.remove("client_data"); // Remove the client data cookie
+    window.location.href = "/ClientLogin";
+  };
+
   return (
-    <div className={`h-screen bg-black text-white p-4 ${isOpen ? "w-72" : "w-16"} flex flex-col transition-all duration-300`}>
+    <div className={`h-screen bg-black text-white p-4 ${isOpen ? "w-72" : "w-16"} flex flex-col transition-all duration-300 fixed top-0 left-0 z-50`}>
       {/* Title Row with Toggle Button */}
       <div className="flex items-center justify-between mb-4">
         {isOpen && <h1 className="text-2xl font-bold">Dashboard</h1>}
@@ -77,34 +82,28 @@ const ClientSideNavbar = () => {
 
       {/* Menu Items */}
       <ul className="space-y-3 flex-1">
-      <Link to="ClientEditProfile">
-        <li
-          className={`flex items-center gap-2 cursor-pointer p-2 rounded ${
-            selectedMenu === "editProfile" ? "bg-green-500" : "hover:text-green-500"
-          }`}
-          onClick={() => handleMenuItemClick("editProfile")}
-        >
-          <PencilSquareIcon className="w-6 h-6" />
-          {isOpen && <span>Edit Profile</span>}
-        </li>
+        <Link to="ClientEditProfile">
+          <li
+            className={`flex items-center gap-2 cursor-pointer p-2 rounded ${selectedMenu === "editProfile" ? "bg-green-500" : "hover:text-green-500"}`}
+            onClick={() => handleMenuItemClick("editProfile")}
+          >
+            <PencilSquareIcon className="w-6 h-6" />
+            {isOpen && <span>Edit Profile</span>}
+          </li>
         </Link>
         <Link to="ClientEditPassword">
-        <li
-          className={`flex items-center gap-2 cursor-pointer p-2 rounded ${
-            selectedMenu === "editPassword" ? "bg-green-500" : "hover:text-green-500"
-          }`}
-          onClick={() => handleMenuItemClick("editPassword")}
-        >
-          <KeyIcon className="w-6 h-6" />
-          {isOpen && <span>Edit Password</span>}
-        </li>
+          <li
+            className={`flex items-center gap-2 cursor-pointer p-2 rounded ${selectedMenu === "editPassword" ? "bg-green-500" : "hover:text-green-500"}`}
+            onClick={() => handleMenuItemClick("editPassword")}
+          >
+            <KeyIcon className="w-6 h-6" />
+            {isOpen && <span>Edit Password</span>}
+          </li>
         </Link>
         {/* View Subject Dropdown */}
         <li>
           <div
-            className={`flex items-center justify-between cursor-pointer p-2 rounded ${
-              selectedMenu === "viewSubject" ? "bg-green-500" : "hover:text-green-500"
-            }`}
+            className={`flex items-center justify-between cursor-pointer p-2 rounded ${selectedMenu === "viewSubject" ? "bg-green-500" : "hover:text-green-500"}`}
             onClick={toggleDropdown} // Toggle dropdown on click
           >
             <span className="flex items-center gap-2">
@@ -115,24 +114,17 @@ const ClientSideNavbar = () => {
           </div>
           {isDropdownOpen && isOpen && subjects.length > 0 && (
             <ul className="pl-6 mt-2 space-y-2">
-              
               {subjects.map((subject) => (
-                <Link
-                to={`subject/${subject.ct_id}/${encodeURIComponent(subject.subject_name)}`} // Include both ID and name in the URL
-                className="text-white"
-              >
-                <li
-  key={subject.ct_id}
-  className={`cursor-pointer p-2 rounded ${
-    selectedMenu === subject.ct_id ? "bg-green-400" : "hover:text-green-400"
-  }`}
-  onClick={() => handleSubjectClick(subject.ct_id)}
->
-  <div className="flex items-center space-x-2">
-    <PencilIcon className="w-5 h-5 text-red-400" /> {/* Adjust icon size as needed */}
-    <span>{subject.subject_name}</span>
-  </div>
-</li>
+                <Link to={`subject/${subject.ct_id}/${encodeURIComponent(subject.subject_name)}`} className="text-white" key={subject.ct_id}>
+                  <li
+                    className={`cursor-pointer p-2 rounded ${selectedMenu === subject.ct_id ? "bg-green-400" : "hover:text-green-400"}`}
+                    onClick={() => handleSubjectClick(subject.ct_id)}
+                  >
+                    <div className="flex items-center space-x-2">
+                      <PencilIcon className="w-5 h-5 text-red-400" />
+                      <span>{subject.subject_name}</span>
+                    </div>
+                  </li>
                 </Link>
               ))}
             </ul>
@@ -140,9 +132,7 @@ const ClientSideNavbar = () => {
         </li>
 
         <li
-          className={`flex items-center gap-2 cursor-pointer p-2 rounded ${
-            selectedMenu === "addSubject" ? "bg-green-500" : "hover:text-green-500"
-          }`}
+          className={`flex items-center gap-2 cursor-pointer p-2 rounded ${selectedMenu === "addSubject" ? "bg-green-500" : "hover:text-green-500"}`}
           onClick={() => handleMenuItemClick("addSubject")}
         >
           <PlusIcon className="w-6 h-6" />
@@ -152,7 +142,10 @@ const ClientSideNavbar = () => {
 
       {/* Logout Button */}
       <div className="mb-4">
-        <li className="flex items-center gap-2 cursor-pointer p-2 rounded hover:text-red-500">
+        <li
+          className="flex items-center gap-2 cursor-pointer p-2 rounded hover:text-red-500"
+          onClick={handleLogout} // Call handleLogout on click
+        >
           <ArrowLeftOnRectangleIcon className="w-6 h-6" />
           {isOpen && <span>Logout</span>}
         </li>
