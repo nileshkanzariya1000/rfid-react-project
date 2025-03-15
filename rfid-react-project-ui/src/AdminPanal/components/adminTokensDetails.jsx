@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+
 import {
   getTokensForAdmin,
   editTokenDetails,
-  toggleTokenStatus,
   addNewToken,
 } from "../service/api";
 import { Search, Edit, Check, PlusCircle, X } from "lucide-react";
 
 const AdminTokensDetails = () => {
+  const adminData = Cookies.get("admin_data");
+    // If no admin data is found, redirect to login
+    if (!adminData) {
+      window.location.href = "/";
+    }
   const [tokens, setTokens] = useState([]);
   const [filteredTokens, setFilteredTokens] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [showPopup, setShowPopup] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [newToken, setNewToken] = useState({
@@ -24,17 +29,15 @@ const AdminTokensDetails = () => {
     description: "",
   });
   const [editingToken, setEditingToken] = useState(null);
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
-
+  // Fetch tokens on component mount
   useEffect(() => {
     const fetchTokens = async () => {
       try {
         const response = await getTokensForAdmin();
         if (response?.success && Array.isArray(response.data)) {
-          const sortedTokens = response.data.sort(
-            (a, b) => a.token_id - b.token_id
-          );
+          const sortedTokens = response.data.sort((a, b) => a.token_id - b.token_id);
           setTokens(sortedTokens);
           setFilteredTokens(sortedTokens);
         } else {
@@ -49,6 +52,7 @@ const AdminTokensDetails = () => {
     fetchTokens();
   }, []);
 
+  // Filter tokens based on search term
   useEffect(() => {
     setFilteredTokens(
       tokens.filter((token) =>
@@ -59,23 +63,7 @@ const AdminTokensDetails = () => {
     );
   }, [searchTerm, tokens]);
 
-  const handleAddNewToken = async () => {
-    try {
-      const response = await editTokenDetails(newToken);
-      if (response?.success) {
-        const updatedTokens = [...tokens, response.data];
-        setTokens(updatedTokens);
-        setFilteredTokens(updatedTokens);
-        setNewToken({ name: "", price: "", duration_day: "", description: "" });
-        setShowPopup(false);
-      } else {
-        alert("Failed to add new token");
-      }
-    } catch (err) {
-      alert("Error adding new token: " + (err.message || "Unknown error"));
-    }
-  };
-
+  // Handle adding a new token
   const handleAddToken = async () => {
     try {
       const response = await addNewToken(newToken);
@@ -84,7 +72,7 @@ const AdminTokensDetails = () => {
         setFilteredTokens([...tokens, response.data]);
         setShowModal(false);
         setNewToken({ name: "", price: "", duration_day: "", description: "" });
-        navigate(0);
+        navigate(0); // Refresh the page
       } else {
         alert("Failed to add token");
       }
@@ -93,6 +81,7 @@ const AdminTokensDetails = () => {
     }
   };
 
+  // Handle editing a token
   const handleEditToken = (token) => {
     setEditingToken({
       token_id: token.token_id,
@@ -105,6 +94,7 @@ const AdminTokensDetails = () => {
     setShowEditModal(true);
   };
 
+  // Handle updating a token
   const handleUpdateToken = async () => {
     try {
       const response = await editTokenDetails(editingToken);
@@ -150,48 +140,7 @@ const AdminTokensDetails = () => {
         </button>
       </div>
 
-      {/* Existing Popup Modal */}
-      {showPopup && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-semibold">Add New Token</h3>
-              <button
-                onClick={() => setShowPopup(false)}
-                className="text-gray-600"
-              >
-                <X />
-              </button>
-            </div>
-            <div className="grid grid-cols-1 gap-3">
-              {Object.keys(newToken).map((key) => (
-                <input
-                  key={key}
-                  type={
-                    key === "price" || key === "duration_day"
-                      ? "number"
-                      : "text"
-                  }
-                  placeholder={key.replace("_", " ").toUpperCase()}
-                  value={newToken[key]}
-                  onChange={(e) =>
-                    setNewToken({ ...newToken, [key]: e.target.value })
-                  }
-                  className="border p-2 rounded"
-                />
-              ))}
-              <button
-                onClick={handleAddNewToken}
-                className="bg-blue-500 text-white p-2 rounded flex items-center justify-center gap-2"
-              >
-                <PlusCircle /> Add Token
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* New Modal for addNewToken function */}
+      {/* Add Token Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
@@ -288,7 +237,6 @@ const AdminTokensDetails = () => {
                 }
                 className="border p-2 rounded"
               />
-              {/* Dropdown for Status */}
               <select
                 value={editingToken.status}
                 onChange={(e) =>
@@ -312,6 +260,8 @@ const AdminTokensDetails = () => {
           </div>
         </div>
       )}
+
+      {/* Tokens Table */}
       {loading ? (
         <p className="text-center text-lg font-medium text-gray-700">
           Loading tokens...
@@ -345,16 +295,15 @@ const AdminTokensDetails = () => {
                   <td className="p-3">{token.duration_day} days</td>
                   <td className="p-3">{token.description}</td>
                   <td className="p-3">
-                    <button
-                      className={`px-3 py-1 rounded text-white ${
-                        token.status === 1 ? "bg-green-500" : "bg-red-500"
+                    <span
+                      className={`px-2 py-1 rounded-md text-sm font-medium ${
+                        token.status === 1
+                          ? "bg-green-200 text-green-700"
+                          : "bg-red-200 text-red-700"
                       }`}
-                      onClick={() =>
-                        toggleTokenStatus(token.token_id, token.status)
-                      }
                     >
                       {token.status === 1 ? "Active" : "Inactive"}
-                    </button>
+                    </span>
                   </td>
                   <td className="p-3">
                     <button

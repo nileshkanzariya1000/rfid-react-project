@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { fetchClients, updateClientStatus } from "../service/api";
 import { Search } from "lucide-react"; // Import search icon
+import Cookies from "js-cookie";
+
 
 const ManageClients = () => {
+  const adminData = Cookies.get("admin_data");
+    // If no admin data is found, redirect to login
+    if (!adminData) {
+      window.location.href = "/";
+    }
   const [clients, setClients] = useState([]);
   const [filteredClients, setFilteredClients] = useState([]);
   const [loading, setLoading] = useState(true);

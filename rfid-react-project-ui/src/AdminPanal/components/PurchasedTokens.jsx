@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { fetchPurchasedTokens } from "../service/api";
 import { Search, ArrowUp, ArrowDown } from "lucide-react";
+import Cookies from "js-cookie";
+
 
 const PurchasedTokens = () => {
+  const adminData = Cookies.get("admin_data");
+    // If no admin data is found, redirect to login
+    if (!adminData) {
+      window.location.href = "/";
+    }
   const [tokens, setTokens] = useState([]);
   const [filteredTokens, setFilteredTokens] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
