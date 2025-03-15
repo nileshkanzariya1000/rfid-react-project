@@ -1,14 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import {
   Bars3Icon,
-  Squares2X2Icon,
   UserGroupIcon,
   ClipboardDocumentListIcon,
-  BookOpenIcon,
-  CalendarDaysIcon,
-  DocumentTextIcon,
   Cog6ToothIcon,
   ArrowLeftOnRectangleIcon,
   MagnifyingGlassIcon,
@@ -20,16 +16,26 @@ import {
 const AdminSideNavbar = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [selectedItem, setSelectedItem] = useState("Dashboard");
+  const [adminName, setAdminName] = useState("");
+
+  useEffect(() => {
+    const adminData = Cookies.get("admin_data");
+    if (adminData) {
+      try {
+        const parsedData = JSON.parse(adminData);
+        setAdminName(parsedData.username || "Admin");
+      } catch (error) {
+        console.error("Error parsing admin data:", error);
+      }
+    }
+  }, []);
 
   const handleLogout = () => {
     Cookies.remove("admin_data");
   };
 
-  const Admin_name = "Admin Name"; // Replace with dynamic admin name if needed
-
   return (
     <div className={`h-screen bg-black text-white p-4 ${isOpen ? "w-64" : "w-16"} flex flex-col transition-all duration-300`}>
-      {/* Sidebar Toggle & Admin Label */}
       <div className="flex items-center justify-between mb-4">
         {isOpen && <span className="text-white text-2xl font-bold">Admin</span>}
         <button onClick={() => setIsOpen(!isOpen)} className="p-2 rounded hover:bg-gray-700 ml-auto">
@@ -37,7 +43,6 @@ const AdminSideNavbar = () => {
         </button>
       </div>
 
-      {/* Search Bar or Icon */}
       <div className="mb-4">
         {isOpen ? (
           <input
@@ -52,9 +57,16 @@ const AdminSideNavbar = () => {
         )}
       </div>
 
-      {/* Navigation Links */}
       <ul className="space-y-3 flex-1">
-
+        <li>
+          <Link to="AdminEditPassword"
+            className={`flex items-center gap-2 p-2 rounded w-full ${selectedItem === "EditPassword" ? "bg-green-500 text-white" : "hover:text-green-500"}`}
+            onClick={() => setSelectedItem("EditPassword")}
+          >
+            <KeyIcon className="w-6 h-6" />
+            {isOpen && <span>Edit Password</span>}
+          </Link>
+        </li>
 
         <li>
           <Link to="ManageUsers"
@@ -77,7 +89,7 @@ const AdminSideNavbar = () => {
         </li>
 
         <li>
-          <Link to="/tokens"
+          <Link to="AdminTokensDetails"
             className={`flex items-center gap-2 p-2 rounded w-full ${selectedItem === "Tokens" ? "bg-green-500 text-white" : "hover:text-green-500"}`}
             onClick={() => setSelectedItem("Tokens")}
           >
@@ -87,7 +99,7 @@ const AdminSideNavbar = () => {
         </li>
 
         <li>
-          <Link to="/purchasedTokens"
+          <Link to="PurchasedTokens"
             className={`flex items-center gap-2 p-2 rounded w-full ${selectedItem === "Settings" ? "bg-green-500 text-white" : "hover:text-green-500"}`}
             onClick={() => setSelectedItem("Settings")}
           >
@@ -95,21 +107,10 @@ const AdminSideNavbar = () => {
             {isOpen && <span>Purchased Tokens</span>}
           </Link>
         </li>
-
-        <li>
-          <Link to="AdminEditPassword"
-            className={`flex items-center gap-2 p-2 rounded w-full ${selectedItem === "EditPassword" ? "bg-green-500 text-white" : "hover:text-green-500"}`}
-            onClick={() => setSelectedItem("EditPassword")}
-          >
-            <KeyIcon className="w-6 h-6" />
-            {isOpen && <span>Edit Password</span>}
-          </Link>
-        </li>
       </ul>
 
-      {/* Logout Button */}
       <div className="mb-4">
-        <Link to="/login"
+        <Link to="/"
           className={`flex items-center gap-2 w-full p-2 rounded ${selectedItem === "Logout" ? "bg-red-500 text-white" : "hover:text-red-500"}`}
           onClick={() => {
             setSelectedItem("Logout");
@@ -121,12 +122,11 @@ const AdminSideNavbar = () => {
         </Link>
       </div>
 
-      {/* Profile Section */}
       {isOpen && (
         <div className="flex items-center bg-gray-800 p-2 rounded-lg mt-2">
           <UserIcon className="w-10 h-10 text-white" />
           <div className="ml-3">
-            <p className="font-bold">{Admin_name}</p>
+            <p className="font-bold">{adminName || "Admin"}</p>
             <p className="text-sm text-gray-400">Admin</p>
           </div>
         </div>

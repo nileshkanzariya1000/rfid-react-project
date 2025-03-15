@@ -37,7 +37,7 @@ const AdminLogin = () => {
         // Redirect to dashboard after successful login
         setTimeout(() => {
           navigate('/Admindashboard');
-        }, 1000); // Short delay to show success message
+        }, 500); // Short delay to show success message
       } else {
         setError(data.message || 'Login failed');
       }

@@ -23,6 +23,8 @@ import ViewAttendanceBySubject from "./ClientPanal/components/viewAttendanceBySu
 import ManageClients from "./AdminPanal/components/manageClients";
 import ManageUsers from "./AdminPanal/components/manageUsers";
 import AdminEditPassword from "./AdminPanal/components/adminEditPassword";
+import TokensDetails from "./AdminPanal/components/adminTokensDetails";
+import PurchasedTokens from "./AdminPanal/components/PurchasedTokens";
 function App() {
   return (
     <Router>
@@ -62,6 +64,8 @@ function App() {
           <Route path="AdminEditPassword" element={<AdminEditPassword />} />
           <Route path="ManageUsers" element={<ManageUsers />} />
           <Route path="ManageClients" element={<ManageClients />} />
+          <Route path="AdminTokensDetails" element={<TokensDetails />} />
+          <Route path="PurchasedTokens" element={<PurchasedTokens />} />
         </Route>
       </Routes>
     </Router>

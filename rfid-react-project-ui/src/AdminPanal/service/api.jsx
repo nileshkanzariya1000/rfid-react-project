@@ -92,3 +92,88 @@ export const updateUserStatus = async (user_id, status) => {
 
   return await response.json();
 };
+
+// Fetch tokens using fetch instead of Axios
+export const getTokensForAdmin = async () => {
+  try {
+    const response = await fetch(`${config.baseURL}/getTokensForAdmin`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch tokens");
+    }
+    return await response.json(); // Convert response to JSON
+  } catch (error) {
+    console.error("Error fetching tokens:", error);
+    return [];
+  }
+};
+
+
+// Add a new token
+export const addNewToken = async (tokenData) => {
+  try {
+    const response = await fetch(`${config.baseURL}/addNewToken`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(tokenData),
+    });
+    if (!response.ok) {
+      throw new Error("Failed to add token"); 
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error adding new token:", error);
+    return { success: false, error: error.message };
+  }
+};
+
+
+// Edit token details
+export const editTokenDetails = async (tokenData) => {
+  try {
+    const response = await fetch(`${config.baseURL}/editTokenDetails`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(tokenData),
+    });
+    return await response.json();
+  } catch (error) {
+    console.error("Error editing token:", error);
+    return { success: false, message: "Failed to edit token" };
+  }
+};
+
+// Toggle token status (Activate/Deactivate)
+export const toggleTokenStatus = async (tokenId, status) => {
+  try {
+    const response = await fetch(`${config.baseURL}/editTokenDetails`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token_id: tokenId, status }),
+    });
+    return await response.json();
+  } catch (error) {
+    console.error("Error updating token status:", error);
+    return { success: false, message: "Failed to update token status" };
+  }
+};
+export const fetchPurchasedTokens = async () => {
+  try {
+    const response = await fetch(`${config.baseURL}/getPurchasedTokens`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching purchased tokens:", error);
+    throw error;
+  }
+};

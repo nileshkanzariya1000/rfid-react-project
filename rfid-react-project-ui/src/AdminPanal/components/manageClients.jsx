@@ -1,32 +1,45 @@
 import React, { useState, useEffect } from "react";
 import { fetchClients, updateClientStatus } from "../service/api";
+import { Search } from "lucide-react"; // Import search icon
 
 const ManageClients = () => {
   const [clients, setClients] = useState([]);
+  const [filteredClients, setFilteredClients] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const loadClients = async () => {
       try {
         setLoading(true);
         const response = await fetchClients();
-        setClients(response.data);
+        if (response && response.data) {
+          const sortedClients = response.data.sort((a, b) => a.client_id - b.client_id);
+          setClients(sortedClients);
+          setFilteredClients(sortedClients);
+        }
       } catch (error) {
         console.error("Failed to load clients", error);
       } finally {
         setLoading(false);
       }
     };
-
     loadClients();
   }, []);
+
+  useEffect(() => {
+    const results = clients.filter((client) =>
+      `${client.name} ${client.email} ${client.mobile}`
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+    );
+    setFilteredClients(results);
+  }, [searchTerm, clients]);
 
   const toggleStatus = async (client_id, currentStatus) => {
     try {
       const newStatus = currentStatus === 1 ? 0 : 1;
       await updateClientStatus(client_id, newStatus);
-
-      // Update UI after successful status change
       setClients((prevClients) =>
         prevClients.map((client) =>
           client.client_id === client_id ? { ...client, status: newStatus } : client
@@ -43,8 +56,22 @@ const ManageClients = () => {
         Manage Clients
       </h2>
 
+      {/* Search Bar with Icon */}
+      <div className="relative mb-4">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+        <input
+          type="text"
+          placeholder="Search by name, email, or mobile..."
+          className="w-full p-3 pl-10 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
       {loading ? (
         <p className="text-center text-lg font-medium text-gray-700">Loading clients...</p>
+      ) : filteredClients.length === 0 ? (
+        <p className="text-center text-lg font-medium text-gray-600">No clients found.</p>
       ) : (
         <div className="overflow-x-auto shadow-md rounded-lg">
           <table className="w-full border border-gray-300 bg-white rounded-lg">
@@ -59,7 +86,7 @@ const ManageClients = () => {
               </tr>
             </thead>
             <tbody>
-              {clients.map((client, index) => (
+              {filteredClients.map((client, index) => (
                 <tr
                   key={client.client_id}
                   className={`border-b hover:bg-gray-100 ${
@@ -85,7 +112,7 @@ const ManageClients = () => {
                     <button
                       onClick={() => toggleStatus(client.client_id, client.status)}
                       className={`px-3 py-1 text-white rounded-md ${
-                        client.status === 1 ? "bg-red-500" : "bg-green-500"
+                        client.status === 1 ? "bg-red-500 hover:bg-red-700" : "bg-green-500 hover:bg-green-700"
                       }`}
                     >
                       {client.status === 1 ? "Deactivate" : "Activate"}

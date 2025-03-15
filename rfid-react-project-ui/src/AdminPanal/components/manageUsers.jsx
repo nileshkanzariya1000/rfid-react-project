@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { fetchUsers, updateUserStatus } from "../service/api";
+import { Search } from "lucide-react"; // Import search icon
 
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const loadUsers = async () => {
       try {
         setLoading(true);
         const response = await fetchUsers();
-        setUsers(response.data);
+        if (response && response.data) {
+          const sortedUsers = response.data.sort((a, b) => a.user_id - b.user_id);
+          setUsers(sortedUsers);
+          setFilteredUsers(sortedUsers);
+        }
       } catch (error) {
         console.error("Failed to load users", error);
       } finally {
@@ -19,6 +26,15 @@ const ManageUsers = () => {
     };
     loadUsers();
   }, []);
+
+  useEffect(() => {
+    const results = users.filter((user) =>
+      `${user.name} ${user.email} ${user.mobile}`
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+    );
+    setFilteredUsers(results);
+  }, [searchTerm, users]);
 
   const toggleStatus = async (user_id, currentStatus) => {
     try {
@@ -40,9 +56,25 @@ const ManageUsers = () => {
         Manage Users
       </h2>
 
+      {/* Search Bar with Icon */}
+      <div className="relative mb-4">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+        <input
+          type="text"
+          placeholder="Search by name, email, or mobile..."
+          className="w-full p-3 pl-10 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
       {loading ? (
         <p className="text-center text-lg font-medium text-gray-700">
           Loading users...
+        </p>
+      ) : filteredUsers.length === 0 ? (
+        <p className="text-center text-lg font-medium text-gray-600">
+          No users found.
         </p>
       ) : (
         <div className="overflow-x-auto shadow-md rounded-lg">
@@ -58,7 +90,7 @@ const ManageUsers = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map((user, index) => (
+              {filteredUsers.map((user, index) => (
                 <tr
                   key={user.user_id}
                   className={`border-b hover:bg-gray-100 ${
