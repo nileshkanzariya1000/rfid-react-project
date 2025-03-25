@@ -1,66 +1,71 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import HomePage from "./PublicPanal/components/home";
+import AdminLogin from "./AdminPanal/components/adminLogin";
+import UserLogin from "./UserPanal/components/userLogin";
+import UserRegister from "./UserPanal/components/userRegister";
 import ClientLogin from "./ClientPanal/components/clientLogin";
 import ClientRegister from "./ClientPanal/components/clientRegister";
-import HomePage from "./PublicPanal/components/home";
-import Login from "./UserPanal/components/userLogin";
-import Register from "./UserPanal/components/userRegister";
-import AdminLogin from "./AdminPanal/components/adminLogin";
 import UserDashboard from "./UserPanal/components/userDashboard";
-import UserSideNavbar from "./UserPanal/components/userSideNavbar";
+import UserSideNavbar from "./UserPanal/components/UserSideNavbar";
 import UserEditProfile from "./UserPanal/components/userEditProfile";
-import UserEditPassword from "./UserPanal/components/UserEditPassword"; 
+import UserEditPassword from "./UserPanal/components/UserEditPassword";
+import ClientSubject from "./ClientPanal/components/clientSubject";
 import ClientDashboard from "./ClientPanal/components/clientDashboard";
 import ClientEditProfile from "./ClientPanal/components/clientEditProfile";
 import ClientEditPassword from "./ClientPanal/components/clientEditPassword";
-import ClientSubject from "./ClientPanal/components/clientSubject";
-import SubjectUserList from "./ClientPanal/components/subjectUserList";
-import AdminDashboard from "./AdminPanal/components/adminDashboard";
 import AddNewSubject from "./ClientPanal/components/addNewSubject";
 import ProcideToAdd from "./ClientPanal/components/procideToAdd";
+import SubjectUserList from "./ClientPanal/components/subjectUserList";
+import ViewAttendanceBySubject from "./ClientPanal/components/viewAttendanceBySubject";
 import UpdateTokenForClient from "./ClientPanal/components/updateTokenForClient";
 import ProcideToUpdate from "./ClientPanal/components/procideToUpdate";
-import ViewAttendanceBySubject from "./ClientPanal/components/viewAttendanceBySubject";
+import AdminDashboard from "./AdminPanal/components/adminDashboard";
 import ManageClients from "./AdminPanal/components/manageClients";
 import ManageUsers from "./AdminPanal/components/manageUsers";
 import AdminEditPassword from "./AdminPanal/components/adminEditPassword";
 import TokensDetails from "./AdminPanal/components/adminTokensDetails";
 import PurchasedTokens from "./AdminPanal/components/PurchasedTokens";
+import UserSubject from "./UserPanal/components/userSubject";
+import ViewAttendance from "./UserPanal/components/viewAttendance";
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Public routes */}
+        {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
         <Route path="/AdminLogin" element={<AdminLogin />} />
-        <Route path="/Login" element={<Login />} />
+        <Route path="/UserLogin" element={<UserLogin />} />
+        <Route path="/UserRegister" element={<UserRegister />} />
         <Route path="/ClientLogin" element={<ClientLogin />} />
         <Route path="/ClientRegister" element={<ClientRegister />} />
-        <Route path="/Register" element={<Register />} />
 
-        {/* User routes */}
-        <Route path="/UserDashboard" element={<UserDashboard />} />
-        <Route path="/UserSideNavbar" element={<UserSideNavbar />} />
-        <Route path="/UserEditProfile" element={<UserEditProfile />} />
-        <Route path="/UserEditPassword" element={<UserEditPassword />} />
-
-        {/* Client routes */}
-        <Route path="/ClientDashboard" element={<ClientDashboard />}>
-          <Route path="ClientEditProfile" element={<ClientEditProfile />} />
-          <Route path="ClientEditPassword" element={<ClientEditPassword />} />
-          <Route path="AddNewSubject" element={<AddNewSubject />} >
-          <Route path="ProcideToAdd/:token_id" element={<ProcideToAdd />}/>  
-          </Route>
-          <Route path="subject/:subjectId/:subjectName" element={<ClientSubject />}>
-            <Route path="SubjectUserList/:ct_id" element={<SubjectUserList />} />
-            <Route path="ViewAttendanceBySubject/:ct_id" element={<ViewAttendanceBySubject />} />
-            <Route path="UpdateTokenForClient/:ct_id" element={<UpdateTokenForClient />}>
-            <Route path="ProcideToUpdate/:token_id" element={<ProcideToUpdate />}/>
-            </Route>
+        {/* User Routes */}
+        <Route path="/UserDashboard" element={<UserDashboard />}>
+        
+          <Route path="UserSideNavbar" element={<UserSideNavbar />} />
+          <Route path="UserEditProfile" element={<UserEditProfile />} />
+          <Route path="UserEditPassword" element={<UserEditPassword />} />
+          <Route path="subject/:subjectId/:subjectName" element={<UserSubject />} >
+            <Route path="ViewAttendanceForUser/:ct_id" element={<ViewAttendance />} />
           </Route>
         </Route>
 
-        {/* Admin route (Moved outside of ClientDashboard) */}
-        <Route path="/Admindashboard" element={<AdminDashboard />}>
+        {/* Client Routes */}
+        <Route path="/ClientDashboard" element={<ClientDashboard />}>
+          <Route path="ClientEditProfile" element={<ClientEditProfile />} />
+          <Route path="ClientEditPassword" element={<ClientEditPassword />} />
+          <Route path="AddNewSubject" element={<AddNewSubject />} />
+          <Route path="ProcideToAdd/:token_id" element={<ProcideToAdd />} />
+          <Route path="subject/:subjectId/:subjectName" element={<ClientSubject />}>
+            <Route path="SubjectUserList/:ct_id" element={<SubjectUserList />} />
+            <Route path="ViewAttendanceBySubject/:ct_id" element={<ViewAttendanceBySubject />} />
+            <Route path="UpdateTokenForClient/:ct_id" element={<UpdateTokenForClient />} />
+            <Route path="ProcideToUpdate/:token_id" element={<ProcideToUpdate />} />
+          </Route>
+        </Route>
+
+        {/* Admin Routes */}
+        <Route path="/AdminDashboard" element={<AdminDashboard />}>
           <Route path="AdminEditPassword" element={<AdminEditPassword />} />
           <Route path="ManageUsers" element={<ManageUsers />} />
           <Route path="ManageClients" element={<ManageClients />} />

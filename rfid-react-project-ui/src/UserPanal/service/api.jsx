@@ -116,8 +116,12 @@ export const getUserSubjects = async () => {
   }
 };
 
-export const getUserSubjectDetails = async (user_id, ct_id) => {
+export const getUserSubjectDetails = async (ct_id) => {
   try {
+    const userData = Cookies.get("user_data");
+    if (!userData) throw new Error("User not logged in");
+
+    const { user_id } = JSON.parse(userData);
     if (!user_id || !ct_id) throw new Error("Missing required parameters");
 
     const response = await fetch(`${config.baseURL}/getUserSubjectDetalis?user_id=${user_id}&ct_id=${ct_id}`, {
@@ -139,6 +143,32 @@ export const getUserSubjectDetails = async (user_id, ct_id) => {
   }
 };
 
+export const getPunchRecordByUser = async (ct_id,from_date,to_date) => {
+  try {
+    const userData = Cookies.get("user_data");
+    if (!userData) throw new Error("User not logged in");
+
+    const { user_id } = JSON.parse(userData);
+    if (!user_id || !ct_id) throw new Error("Missing required parameters");
+
+    const response = await fetch(`${config.baseURL}/getPunchRecordByUser?user_id=${user_id}&ct_id=${ct_id}&from_date=${from_date}&to_date=${to_date}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      return data; // Return full response (success + data)
+    } else {
+      return data;
+    }
+  } catch (error) {
+    throw new Error(error.message || "Something went wrong");
+  }
+};
 
 
 

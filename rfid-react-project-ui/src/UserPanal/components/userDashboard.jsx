@@ -1,52 +1,29 @@
 import React, { useState } from "react";
-import UserSideNavbar from "./userSideNavbar";
-import UserEditProfile from "./userEditProfile";
- import UserEditPassword from "./UserEditPassword";
- import UserSubjectDetail from "./UserSubjectDetail";
-// import ViewSubject from "./ViewSubject";
-// import AddNewSubject from "./AddNewSubject";
+import UserSideNavbar from "./UserSideNavbar";
+import { Outlet } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const UserDashboard = () => {
-  const [selectedItem, setSelectedItem] = useState("Welcome");
-    const [selectedSubject, setSelectedSubject] = useState(null);
-  
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Sidebar state
+  const userData = Cookies.get("user_data");
 
-  const handleSelectItem = (item) => {
-    setSelectedItem(item); // Update selected item and render the corresponding component
-  };
-  const handleSelectSubject = (ct_id, subject_name) => {
-    setSelectedSubject({ ct_id, subject_name }); // Set selected subject
-    setSelectedItem("ViewSubject"); // Show subject details when a subject is selected
-  };
+  // Redirect to login if no user data is found
+  if (!userData) {
+    window.location.href = "/UserLogin";
+  }
 
   return (
-    <div className="flex h-screen">
-      {/* Sidebar (always visible) */}
-      <UserSideNavbar onSelectItem={handleSelectItem} onSelectSubject={handleSelectSubject}/>
+    <div className="flex min-h-screen">
+      {/* Sidebar */}
+      <UserSideNavbar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
-      {/* Main Content Area */}
-      <div className="flex-1 p-6 bg-gray-50">
-        {/* Conditionally Render the Selected Component */}
-        {selectedItem === "EditProfile" && <UserEditProfile />}
-        {selectedItem === "EditPassword" && <UserEditPassword />}
-        {selectedItem === "ViewSubject" && selectedSubject && (
-          <UserSubjectDetail
-            ct_id={selectedSubject.ct_id}
-            subject_name={selectedSubject.subject_name}
-          />
-        )}
-        {/* {selectedItem === "AddNewSubject" && <AddNewSubject />} */}
-        {selectedItem === "Logout" && (
-          <div>
-            <h1>You have logged out!</h1>
-          </div>
-        )}
-        {selectedItem === "Welcome" && (
-          <>
-            <h1 className="text-3xl font-bold">Welcome to the Dashboard</h1>
-            <p>This is the main content area.</p>
-          </>
-        )}
+      {/* Main Content */}
+      <div
+        className={`flex-1 ${isSidebarOpen ? "ml-72" : "ml-16"} p-6 bg-gray-100 overflow-auto transition-all duration-300`}
+      >
+        <h1 className="text-2xl font-semibold">User Dashboard</h1>
+        {/* Render nested routes */}
+        <Outlet />
       </div>
     </div>
   );
