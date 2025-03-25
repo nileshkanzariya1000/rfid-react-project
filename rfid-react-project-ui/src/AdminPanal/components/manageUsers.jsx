@@ -111,24 +111,24 @@ const ManageUsers = () => {
                   <td className="p-3">
                     <span
                       className={`px-2 py-1 rounded-md text-sm font-medium ${
-                        user.status === 1
+                        user.status === 0
                           ? "bg-green-200 text-green-700"
                           : "bg-red-200 text-red-700"
                       }`}
                     >
-                      {user.status === 1 ? "Active" : "Inactive"}
+                      {user.status === 0 ? "Active" : "Inactive"}
                     </span>
                   </td>
                   <td className="p-3">
                     <button
                       onClick={() => toggleStatus(user.user_id, user.status)}
                       className={`px-3 py-1 rounded-md text-sm font-medium text-white ${
-                        user.status === 1
+                        user.status === 0
                           ? "bg-red-600 hover:bg-red-700"
                           : "bg-green-600 hover:bg-green-700"
                       }`}
                     >
-                      {user.status === 1 ? "Deactivate" : "Activate"}
+                      {user.status === 0 ? "Deactivate" : "Activate"}
                     </button>
                   </td>
                 </tr>

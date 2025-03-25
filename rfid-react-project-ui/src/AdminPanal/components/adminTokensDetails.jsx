@@ -297,12 +297,12 @@ const AdminTokensDetails = () => {
                   <td className="p-3">
                     <span
                       className={`px-2 py-1 rounded-md text-sm font-medium ${
-                        token.status === 1
+                        token.status === 0
                           ? "bg-green-200 text-green-700"
                           : "bg-red-200 text-red-700"
                       }`}
                     >
-                      {token.status === 1 ? "Active" : "Inactive"}
+                      {token.status === 0 ? "Active" : "Inactive"}
                     </span>
                   </td>
                   <td className="p-3">

@@ -107,22 +107,22 @@ const ManageClients = () => {
                   <td className="p-3">
                     <span
                       className={`px-2 py-1 rounded-md text-sm font-medium ${
-                        client.status === 1
+                        client.status === 0
                           ? "bg-green-200 text-green-700"
                           : "bg-red-200 text-red-700"
                       }`}
                     >
-                      {client.status === 1 ? "Active" : "Inactive"}
+                      {client.status === 0 ? "Active" : "Inactive"}
                     </span>
                   </td>
                   <td className="p-3">
                     <button
                       onClick={() => toggleStatus(client.client_id, client.status)}
                       className={`px-3 py-1 text-white rounded-md ${
-                        client.status === 1 ? "bg-red-500 hover:bg-red-700" : "bg-green-500 hover:bg-green-700"
+                        client.status === 0 ? "bg-red-500 hover:bg-red-700" : "bg-green-500 hover:bg-green-700"
                       }`}
                     >
-                      {client.status === 1 ? "Deactivate" : "Activate"}
+                      {client.status === 0 ? "Deactivate" : "Activate"}
                     </button>
                   </td>
                 </tr>
