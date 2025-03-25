@@ -29,10 +29,7 @@ export const updateAdminPassword = async (username, oldPassword, newPassword) =>
       current_password: oldPassword, 
       new_password: newPassword 
     };
-    
-    console.log('Making request to:', url);
-    console.log('With body:', requestBody);
-    
+
     const response = await fetch(url, {
       method: "PUT", // Changed from POST to PUT
       headers: {
@@ -42,19 +39,16 @@ export const updateAdminPassword = async (username, oldPassword, newPassword) =>
     });
 
     const textResponse = await response.text();
-    console.log("Raw API Response:", textResponse);
-
     try {
       const data = JSON.parse(textResponse);
       if (!response.ok) {
-        throw new Error(data.message || "Password update failed");
+      return data;
       }
       return data;
     } catch {
-      throw new Error("Invalid JSON response. API might be returning HTML or an error page.");
+      throw new Error("Old password incorrect");
     }
   } catch (error) {
-    console.error("API call failed:", error);
     throw new Error(error.message || "Something went wrong");
   }
 };

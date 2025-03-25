@@ -4,6 +4,12 @@ import { updateAdminPassword } from "../service/api";
 
 const AdminEditPassword = () => {
   // State variables for password fields
+  const adminData = Cookies.get("admin_data");
+    
+    // If no admin data is found, redirect to login
+    if (!adminData) {
+      window.location.href = "/";
+    }
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -33,7 +39,7 @@ const AdminEditPassword = () => {
       setError("All fields are required.");
       return;
     }
-    if (newPassword.length < 6) {
+    if (newPassword.length < 4) {
       setError("New password must be at least 6 characters.");
       return;
     }

@@ -13,8 +13,13 @@ import {
   CurrencyRupeeIcon,
 } from "@heroicons/react/24/solid";
 
-const AdminSideNavbar = () => {
-  const [isOpen, setIsOpen] = useState(true);
+const AdminSideNavbar = ({ isOpen, setIsOpen }) => {
+  const adminData = Cookies.get("admin_data");
+    
+    // If no admin data is found, redirect to login
+    if (!adminData) {
+      window.location.href = "/";
+    }
   const [selectedItem, setSelectedItem] = useState("Dashboard");
   const [adminName, setAdminName] = useState("");
 
@@ -32,10 +37,11 @@ const AdminSideNavbar = () => {
 
   const handleLogout = () => {
     Cookies.remove("admin_data");
+    window.location.href = "/";
   };
 
   return (
-    <div className={`h-screen bg-black text-white p-4 ${isOpen ? "w-64" : "w-16"} flex flex-col transition-all duration-300`}>
+    <div className={`h-screen bg-black text-white p-4 ${isOpen ? "w-64" : "w-16"} flex flex-col transition-all duration-300 fixed top-0 left-0 z-50`}>      
       <div className="flex items-center justify-between mb-4">
         {isOpen && <span className="text-white text-2xl font-bold">Admin</span>}
         <button onClick={() => setIsOpen(!isOpen)} className="p-2 rounded hover:bg-gray-700 ml-auto">
@@ -57,7 +63,7 @@ const AdminSideNavbar = () => {
         )}
       </div>
 
-      <ul className="space-y-3 flex-1">
+      <ul className="space-y-3 flex-1 overflow-auto">
         <li>
           <Link to="AdminEditPassword"
             className={`flex items-center gap-2 p-2 rounded w-full ${selectedItem === "EditPassword" ? "bg-green-500 text-white" : "hover:text-green-500"}`}
@@ -80,8 +86,8 @@ const AdminSideNavbar = () => {
 
         <li>
           <Link to="ManageClients"
-            className={`flex items-center gap-2 p-2 rounded w-full ${selectedItem === "Manage Teacher" ? "bg-green-500 text-white" : "hover:text-green-500"}`}
-            onClick={() => setSelectedItem("Manage Teacher")}
+            className={`flex items-center gap-2 p-2 rounded w-full ${selectedItem === "Manage Clients" ? "bg-green-500 text-white" : "hover:text-green-500"}`}
+            onClick={() => setSelectedItem("Manage Clients")}
           >
             <ClipboardDocumentListIcon className="w-6 h-6" />
             {isOpen && <span>Manage Clients</span>}
@@ -100,8 +106,8 @@ const AdminSideNavbar = () => {
 
         <li>
           <Link to="PurchasedTokens"
-            className={`flex items-center gap-2 p-2 rounded w-full ${selectedItem === "Settings" ? "bg-green-500 text-white" : "hover:text-green-500"}`}
-            onClick={() => setSelectedItem("Settings")}
+            className={`flex items-center gap-2 p-2 rounded w-full ${selectedItem === "Purchased Tokens" ? "bg-green-500 text-white" : "hover:text-green-500"}`}
+            onClick={() => setSelectedItem("Purchased Tokens")}
           >
             <Cog6ToothIcon className="w-6 h-6" />
             {isOpen && <span>Purchased Tokens</span>}
@@ -110,16 +116,13 @@ const AdminSideNavbar = () => {
       </ul>
 
       <div className="mb-4">
-        <Link to="/"
+        <button
           className={`flex items-center gap-2 w-full p-2 rounded ${selectedItem === "Logout" ? "bg-red-500 text-white" : "hover:text-red-500"}`}
-          onClick={() => {
-            setSelectedItem("Logout");
-            handleLogout();
-          }}
+          onClick={handleLogout}
         >
           <ArrowLeftOnRectangleIcon className="w-6 h-6" />
           {isOpen && <span>Logout</span>}
-        </Link>
+        </button>
       </div>
 
       {isOpen && (
