@@ -54,13 +54,15 @@ function App() {
         <Route path="/ClientDashboard" element={<ClientDashboard />}>
           <Route path="ClientEditProfile" element={<ClientEditProfile />} />
           <Route path="ClientEditPassword" element={<ClientEditPassword />} />
-          <Route path="AddNewSubject" element={<AddNewSubject />} />
+          <Route path="AddNewSubject" element={<AddNewSubject />} >
           <Route path="ProcideToAdd/:token_id" element={<ProcideToAdd />} />
+          </Route>
           <Route path="subject/:subjectId/:subjectName" element={<ClientSubject />}>
             <Route path="SubjectUserList/:ct_id" element={<SubjectUserList />} />
             <Route path="ViewAttendanceBySubject/:ct_id" element={<ViewAttendanceBySubject />} />
-            <Route path="UpdateTokenForClient/:ct_id" element={<UpdateTokenForClient />} />
+            <Route path="UpdateTokenForClient/:ct_id" element={<UpdateTokenForClient />} >
             <Route path="ProcideToUpdate/:token_id" element={<ProcideToUpdate />} />
+            </Route>
           </Route>
         </Route>
 

@@ -128,7 +128,7 @@ const Register = () => {
           {/* Divider and Login link */}
           <div className="my-4 text-center">
             <hr className="border-t border-gray-300" />
-            <p className="text-sm mt-4">Already have an account? <a href="/login" className="text-blue-600">Login</a></p>
+            <p className="text-sm mt-4">Already have an account? <a href="/UserLogin" className="text-blue-600">Login</a></p>
           </div>
         </div>
       </div>

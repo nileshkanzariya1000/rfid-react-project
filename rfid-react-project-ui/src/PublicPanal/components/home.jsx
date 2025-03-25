@@ -19,7 +19,7 @@ export default function HomePage() {
      >Client</button>
     <button
 className="bg-green-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/UserLogin")}
           >User</button>
   </div>
 </nav>
