@@ -20,9 +20,10 @@ export const login = async (username, password) => {
     } catch (error) {
         throw new Error(error.message || "Something went wrong");
     }
-};export const updateAdminPassword = async (username, oldPassword, newPassword) => {
+};
+export const updateAdminPassword = async (username, oldPassword, newPassword) => {
   try {
-    const url = `${config.baseURL}/adminChangePassword`;
+    const url = `${config.baseURL}/   `;
     const requestBody = { 
       username, // Simplified object property shorthand
       current_password: oldPassword, 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getTokenById } from '../service/api';
 import { addNewSubject } from '../service/api';
+
 const ProcideToAdd = () => {
   const { token_id } = useParams();
   const [tokenDetails, setTokenDetails] = useState(null);
@@ -14,7 +15,6 @@ const ProcideToAdd = () => {
     const fetchTokenDetails = async () => {
       try {
         setLoading(true);
-
         const data = await getTokenById(token_id);
         setTokenDetails(data.data);
       } catch (err) {
@@ -31,44 +31,104 @@ const ProcideToAdd = () => {
 
     setPassKey(generatePassKey());
     fetchTokenDetails();
+
+    // Dynamically add Razorpay script to the document head
+    const script = document.createElement('script');
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.onload = () => {
+      console.log('Razorpay script loaded');
+    };
+    script.onerror = () => {
+      console.error('Failed to load Razorpay script');
+    };
+    document.body.appendChild(script);
+
+    // Clean up the script on component unmount
+    return () => {
+      document.body.removeChild(script);
+    };
   }, [token_id]);
 
- const handleSubmit = async (event) => {
-  event.preventDefault();
-
-  if (!tokenDetails) {
-    console.error("Token details not available");
-    return;
-  }
-
-  const purchaseDate = new Date();
-  const durationDays = tokenDetails.duration_day || 0; // Assuming the API returns duration in days
-  const expireDate = new Date();
-  expireDate.setDate(purchaseDate.getDate() + durationDays);
-
-  const formattedPurchaseDate = purchaseDate.toISOString().split('T')[0];
-  const formattedExpireDate = expireDate.toISOString().split('T')[0];
- const status=1;
-  try {
-    const response = await addNewSubject(
-      token_id,
-      passKey,
-      status, // Assuming the status is 'active' when purchased
-      formattedPurchaseDate,
-      formattedExpireDate,
-      subjectName
-    );
-
-    if (response.success) {
-      alert("Subject added successfully!");
-    } else {
-      alert(response.message || "Failed to add subject.");
+  // Function to handle Razorpay payment
+  const handlePayment = () => {
+    if (!tokenDetails) {
+      console.error("Token details are not available");
+      return;
     }
-  } catch (error) {
-    console.error("Error adding subject:", error.message);
-    alert("Something went wrong. Please try again.");
-  }
-};
+  
+    if (window.Razorpay) {
+      const options = {
+        key: 'rzp_test_YwZhdfMsPm2X45', // Replace with your Razorpay key
+        amount: tokenDetails.price * 100, // Amount in paise (1 INR = 100 paise)
+        currency: 'INR',
+        name: 'Token Purchase',
+        description: 'Purchase of token for subject',
+        image: 'your_logo_url', // Optional
+        prefill: {
+          name: 'Your Name',
+          email: 'your_email@example.com',
+          contact: 'your_contact_number',
+        },
+        theme: {
+          color: '#528FF0',
+        },
+        handler: async (response) => {
+          try {
+            const purchaseDate = new Date();
+            const durationDays = tokenDetails.duration_day || 0;
+            const expireDate = new Date();
+            expireDate.setDate(purchaseDate.getDate() + durationDays);
+  
+            const formattedPurchaseDate = purchaseDate.toISOString().split('T')[0];
+            const formattedExpireDate = expireDate.toISOString().split('T')[0];
+            const status = 1;
+  
+            // Proceed with adding the subject to your system after successful payment
+            const addSubjectResponse = await addNewSubject(
+              token_id,
+              passKey,
+              status,
+              formattedPurchaseDate,
+              formattedExpireDate,
+              subjectName
+            );
+  
+            if (addSubjectResponse.success) {
+              alert("Subject added successfully!");
+              window.location.href="../../";
+            } else {
+              alert(addSubjectResponse.message || "Failed to add subject.");
+            }
+          } catch (error) {
+            console.error("Error adding subject:", error.message);
+            alert("Something went wrong. Please try again.");
+          }
+        },
+        modal: {
+          ondismiss: () => {
+            alert('Payment process was cancelled');
+          },
+        },
+        // Optional: Listen for payment failure
+        payment_failed: (response) => {
+          console.error('Payment failed', response);
+          alert('Payment failed! Please try again.');
+        },
+      };
+  
+      const rzp1 = new window.Razorpay(options);
+      rzp1.open();
+    } else {
+      console.error('Razorpay is not loaded');
+      alert('Razorpay is not loaded. Please try again.');
+    }
+  };
+  
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    handlePayment(); // Trigger payment process
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -77,7 +137,7 @@ const ProcideToAdd = () => {
     <div className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg text-center">
       <h1 className="text-2xl font-bold mb-2">Buy Token</h1>
       <p className="text-lg text-green-600 font-semibold">Price: ₹{tokenDetails?.price || 'N/A'}</p>
-      <p className="text-lg text-green-600 font-semibold">token:{tokenDetails?.name || 'N/A'}</p>
+      <p className="text-lg text-green-600 font-semibold">Token: {tokenDetails?.name || 'N/A'}</p>
       
       <form onSubmit={handleSubmit} className="mt-4 space-y-4">
         <div className="text-left">

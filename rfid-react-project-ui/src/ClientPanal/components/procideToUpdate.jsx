@@ -24,30 +24,74 @@ const ProcideToUpdate = () => {
       }
     };
     fetchTokenDetails();
+       // Dynamically add Razorpay script to the document head
+       const script = document.createElement('script');
+       script.src = "https://checkout.razorpay.com/v1/checkout.js";
+       script.onload = () => {
+         console.log('Razorpay script loaded');
+       };
+       script.onerror = () => {
+         console.error('Failed to load Razorpay script');
+       };
+       document.body.appendChild(script);
+   
+       // Clean up the script on component unmount
+       return () => {
+         document.body.removeChild(script);
+       };
   }, [token_id]);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      setPaymentLoading(true); // Show loading spinner while making API call
-      setPaymentError(null); // Clear previous errors
-
-      const response = await updateTokenForClient(ct_id, token_id);
-      
-      if (response.success) {
-        alert(response.message);
-        window.location.href = '../../../';
-       
-      } else {
-        
-        setPaymentError('Failed to update token. Please try again later.');
-      }
-    } catch (err) {
-      // Catch any errors thrown by the API call
-      setPaymentError('Something went wrong while processing the payment. Please try again later.');
-    } finally {
-      setPaymentLoading(false); // Hide loading spinner after API call
+  const handlePayment = () => {
+    if (!window.Razorpay) {
+      console.error("Razorpay is not loaded properly.");
+      return;
     }
+
+    const options = {
+      key: 'rzp_test_YwZhdfMsPm2X45', // Replace with your Razorpay key
+      amount: tokenDetails.price * 100, // Amount in paise (1 INR = 100 paise)
+      currency: 'INR',
+      name: 'Token Purchase',
+      description: 'Purchase of token for subject',
+      image: 'your_logo_url', // Optional
+      prefill: {
+        name: 'Your Name',
+        email: 'your_email@example.com',
+        contact: 'your_contact_number',
+      },
+      theme: {
+        color: '#528FF0',
+      },
+      handler: async (response) => {
+        try {
+          setPaymentLoading(true);
+          setPaymentError(null); // Clear previous errors
+
+          // Call the API to update the token only after successful payment
+          const updateResponse = await updateTokenForClient(ct_id, token_id);
+          
+          if (updateResponse.success) {
+            alert("Token successfully updated!");
+            window.location.href = '../../../'; // Redirect to the appropriate page after success
+          } else {
+            setPaymentError('Failed to update token. Please try again later.');
+          }
+        } catch (error) {
+          console.error("Payment or token update failed:", error.message);
+          setPaymentError('Something went wrong while processing the payment or updating the token.');
+        } finally {
+          setPaymentLoading(false); // Hide loading spinner after API call
+        }
+      },
+      modal: {
+        ondismiss: () => {
+          alert('Payment process was cancelled');
+        },
+      },
+    };
+
+    const rzp1 = new window.Razorpay(options);
+    rzp1.open();
   };
 
   if (loading) return <div>Loading...</div>;
@@ -66,15 +110,13 @@ const ProcideToUpdate = () => {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="mt-4 space-y-4">
-        <button
-          type="submit"
-          className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"
-          disabled={paymentLoading} // Disable button while loading
-        >
-          {paymentLoading ? 'Processing...' : 'Proceed to Payment'}
-        </button>
-      </form>
+      <button
+        onClick={handlePayment} // Trigger the payment process on button click
+        className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"
+        disabled={paymentLoading} // Disable button while payment is in progress
+      >
+        {paymentLoading ? 'Processing...' : 'Proceed to Payment'}
+      </button>
 
       <p className="mt-4 text-gray-500">Click to proceed to payment for your token.</p>
     </div>
