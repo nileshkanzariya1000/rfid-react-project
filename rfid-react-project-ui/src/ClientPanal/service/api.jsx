@@ -375,3 +375,123 @@ export const getPunchRecordBySubject = async (ct_id,from_date,to_date) => {
     throw new Error(error.message || "Something went wrong");
   }
 };
+
+export const initiateRazorpayPayment = async ({ tokenDetails, passKey, subjectName, token_id }) => {
+  return new Promise((resolve, reject) => {
+    if (!window.Razorpay) {
+      alert('Razorpay is not loaded. Please try again.');
+      return reject('Razorpay not loaded');
+    }
+
+    const options = {
+      key: 'rzp_test_YwZhdfMsPm2X45', // Replace with your real Razorpay key
+      amount: tokenDetails.price * 100, // in paise
+      currency: 'INR',
+      name: 'Token Purchase',
+      description: 'Purchase of token for subject',
+      image: 'your_logo_url', // Optional logo
+      prefill: {
+        name: 'Your Name',
+        email: 'your_email@example.com',
+        contact: 'your_contact_number',
+      },
+      theme: {
+        color: '#528FF0',
+      },
+      handler: async (response) => {
+        try {
+          const purchaseDate = new Date();
+          const durationDays = tokenDetails.duration_day || 0;
+          const expireDate = new Date();
+          expireDate.setDate(purchaseDate.getDate() + durationDays);
+
+          const formattedPurchaseDate = purchaseDate.toISOString().split('T')[0];
+          const formattedExpireDate = expireDate.toISOString().split('T')[0];
+          const status = 1;
+
+          // ✅ Call addNewSubject here
+          const result = await addNewSubject(
+            token_id,
+            passKey,
+            status,
+            formattedPurchaseDate,
+            formattedExpireDate,
+            subjectName
+          );
+
+          if (result.success) {
+            resolve('Subject added successfully!');
+          } else {
+            reject(result.message || 'Failed to add subject.');
+          }
+        } catch (error) {
+          reject(error.message || 'Something went wrong.');
+        }
+      },
+      modal: {
+        ondismiss: () => {
+          reject('Payment process was cancelled');
+        },
+      },
+      payment_failed: (response) => {
+        reject('Payment failed');
+      },
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  });
+};
+
+
+export const initiateUpdateRazorpayPayment = async ({
+  tokenDetails,
+  clientId,
+  tokenId,
+  onSuccess,
+  onFailure,
+}) => {
+  if (!window.Razorpay) {
+    console.error("Razorpay is not loaded properly.");
+    onFailure("Payment gateway not loaded.");
+    return;
+  }
+
+  const options = {
+    key: 'rzp_test_YwZhdfMsPm2X45', // Replace with your Razorpay key
+    amount: tokenDetails.price * 100,
+    currency: 'INR',
+    name: 'Token Purchase',
+    description: `Purchase of ${tokenDetails.name}`,
+    image: 'your_logo_url', // Optional
+    prefill: {
+      name: 'Your Name',
+      email: 'your_email@example.com',
+      contact: 'your_contact_number',
+    },
+    theme: {
+      color: '#528FF0',
+    },
+    handler: async function (response) {
+      try {
+        const updateRes = await updateTokenForClient(clientId, tokenId);
+        if (updateRes.success) {
+          onSuccess(updateRes.message);
+        } else {
+          onFailure(updateRes.message || "Payment succeeded but updating the token failed.");
+        }
+      } catch (err) {
+        console.error("Error while updating token:", err);
+        onFailure("Payment succeeded but token update request failed.");
+      }
+    },
+    modal: {
+      ondismiss: () => {
+        onFailure("Payment was cancelled.");
+      },
+    },
+  };
+
+  const rzp = new window.Razorpay(options);
+  rzp.open();
+};

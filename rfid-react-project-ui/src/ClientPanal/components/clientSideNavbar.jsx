@@ -59,7 +59,7 @@ const ClientSideNavbar = ({ isOpen, setIsOpen }) => {
     <div className={`h-screen bg-black text-white p-4 ${isOpen ? "w-72" : "w-16"} flex flex-col transition-all duration-300 fixed top-0 left-0 z-50`}>
       {/* Title Row with Toggle Button */}
       <div className="flex items-center justify-between mb-4">
-        {isOpen && <h1 className="text-2xl font-bold">Dashboard</h1>}
+        {isOpen && <h1 className="text-2xl font-bold">Client Dashboard</h1>}
         <button onClick={() => setIsOpen(!isOpen)}>
           <Bars3Icon className="w-6 h-6 text-white" />
         </button>

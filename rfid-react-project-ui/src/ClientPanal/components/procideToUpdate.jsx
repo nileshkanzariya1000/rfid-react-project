@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getTokenById } from '../service/api';
-import { updateTokenForClient } from '../service/api'; // Import the API function
+import { initiateUpdateRazorpayPayment } from '../service/api';
 
 const ProcideToUpdate = () => {
   const { token_id, ct_id } = useParams();
   const [tokenDetails, setTokenDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [paymentLoading, setPaymentLoading] = useState(false); // Loading state for payment action
-  const [paymentError, setPaymentError] = useState(null); // State to hold payment error messages
+  const [paymentLoading, setPaymentLoading] = useState(false);
+  const [paymentError, setPaymentError] = useState(null);
 
   useEffect(() => {
     const fetchTokenDetails = async () => {
@@ -24,74 +24,35 @@ const ProcideToUpdate = () => {
       }
     };
     fetchTokenDetails();
-       // Dynamically add Razorpay script to the document head
-       const script = document.createElement('script');
-       script.src = "https://checkout.razorpay.com/v1/checkout.js";
-       script.onload = () => {
-         console.log('Razorpay script loaded');
-       };
-       script.onerror = () => {
-         console.error('Failed to load Razorpay script');
-       };
-       document.body.appendChild(script);
-   
-       // Clean up the script on component unmount
-       return () => {
-         document.body.removeChild(script);
-       };
+
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.onload = () => console.log('Razorpay script loaded');
+    script.onerror = () => console.error('Failed to load Razorpay script');
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
   }, [token_id]);
 
   const handlePayment = () => {
-    if (!window.Razorpay) {
-      console.error("Razorpay is not loaded properly.");
-      return;
-    }
+    setPaymentLoading(true);
+    setPaymentError(null);
 
-    const options = {
-      key: 'rzp_test_YwZhdfMsPm2X45', // Replace with your Razorpay key
-      amount: tokenDetails.price * 100, // Amount in paise (1 INR = 100 paise)
-      currency: 'INR',
-      name: 'Token Purchase',
-      description: 'Purchase of token for subject',
-      image: 'your_logo_url', // Optional
-      prefill: {
-        name: 'Your Name',
-        email: 'your_email@example.com',
-        contact: 'your_contact_number',
+    initiateUpdateRazorpayPayment({
+      tokenDetails,
+      clientId: ct_id,
+      tokenId: token_id,
+      onSuccess: (successMessage) => {
+        alert(successMessage || 'Token successfully updated!');
+        window.location.href = '../../../';
       },
-      theme: {
-        color: '#528FF0',
+      onFailure: (message) => {
+        setPaymentError(message);
+        setPaymentLoading(false);
       },
-      handler: async (response) => {
-        try {
-          setPaymentLoading(true);
-          setPaymentError(null); // Clear previous errors
-
-          // Call the API to update the token only after successful payment
-          const updateResponse = await updateTokenForClient(ct_id, token_id);
-          
-          if (updateResponse.success) {
-            alert("Token successfully updated!");
-            window.location.href = '../../../'; // Redirect to the appropriate page after success
-          } else {
-            setPaymentError('Failed to update token. Please try again later.');
-          }
-        } catch (error) {
-          console.error("Payment or token update failed:", error.message);
-          setPaymentError('Something went wrong while processing the payment or updating the token.');
-        } finally {
-          setPaymentLoading(false); // Hide loading spinner after API call
-        }
-      },
-      modal: {
-        ondismiss: () => {
-          alert('Payment process was cancelled');
-        },
-      },
-    };
-
-    const rzp1 = new window.Razorpay(options);
-    rzp1.open();
+    });
   };
 
   if (loading) return <div>Loading...</div>;
@@ -111,9 +72,9 @@ const ProcideToUpdate = () => {
       )}
 
       <button
-        onClick={handlePayment} // Trigger the payment process on button click
+        onClick={handlePayment}
         className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"
-        disabled={paymentLoading} // Disable button while payment is in progress
+        disabled={paymentLoading}
       >
         {paymentLoading ? 'Processing...' : 'Proceed to Payment'}
       </button>
