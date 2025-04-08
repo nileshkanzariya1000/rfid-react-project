@@ -407,7 +407,7 @@ export const initiateRazorpayPayment = async ({ tokenDetails, passKey, subjectNa
 
           const formattedPurchaseDate = purchaseDate.toISOString().split('T')[0];
           const formattedExpireDate = expireDate.toISOString().split('T')[0];
-          const status = 1;
+          const status = 0;
 
           // ✅ Call addNewSubject here
           const result = await addNewSubject(
