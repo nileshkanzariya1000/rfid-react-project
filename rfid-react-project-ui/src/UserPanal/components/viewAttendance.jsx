@@ -87,12 +87,38 @@ const ViewAttendance = () => {
             title: { display: true, text: "Attendance Overview" },
         },
     };
+    const downloadCSV = () => {
+        if (attendanceRecords.length === 0) {
+            alert("No attendance records to download.");
+            return;
+        }
+    
+        const csvHeader = "Date,Time\n";
+        const csvRows = attendanceRecords.map(record => {
+            const dateObj = new Date(record.timestamp);
+            const date = dateObj.toLocaleDateString("en-CA");
+            const time = dateObj.toLocaleTimeString();
+            return `${date},${time}`;
+        });
+    
+        const csvContent = csvHeader + csvRows.join("\n");
+        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+    
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", `attendance_${subjectName}_${fromDate}_to_${toDate}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
 
     return (
         <div className="flex flex-col md:flex-row gap-4 p-4 bg-gray-100 min-h-screen">
             <div className="bg-white p-4 rounded-lg shadow-lg w-full md:w-2/3">
                 <h1 className="text-xl font-semibold mb-3">Attendance for {subjectName} ({subjectId})</h1>
-                
+       
+         
                 <div className="mb-3 flex items-center gap-2">
                     <div>
                         <label className="block text-gray-600 text-sm">From Date:</label>
@@ -113,6 +139,14 @@ const ViewAttendance = () => {
                         />
                     </div>
                 </div>
+                <div className="mb-4">
+    <button
+        onClick={downloadCSV}
+        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 text-sm"
+    >
+        Download CSV
+    </button>
+</div>
 
                 {loading && <p className="text-blue-500 text-sm">Loading...</p>}
                 {error && <p className="text-red-500 text-sm">{error}</p>}

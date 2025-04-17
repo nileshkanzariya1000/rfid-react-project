@@ -146,7 +146,38 @@ const ViewAttendanceBySubject = () => {
       ]
     };
   };
-
+  const downloadCSV = () => {
+    if (!attendanceData || attendanceData.length === 0) {
+      alert("No attendance data to export.");
+      return;
+    }
+  
+    // Define CSV headers
+    const headers = ["User ID", "Name", "Designation", "Timestamp"];
+  
+    // Format data
+    const rows = attendanceData.map(record => [
+      record.user_id,
+      record.name,
+      record.designation,
+      new Date(record.timestamp).toLocaleString()
+    ]);
+  
+    const csvContent = [headers, ...rows]
+      .map(row => row.map(field => `"${field}"`).join(","))
+      .join("\n");
+  
+    // Create a blob and trigger download
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `Attendance_${ct_id}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+  
   return (
     <div className="p-6 min-h-screen">
       <h1 className="text-2xl font-semibold text-center mb-6">Attendance for CT ID: {ct_id}</h1>
@@ -180,9 +211,19 @@ const ViewAttendanceBySubject = () => {
           Get Data
         </button>
       </div>
+      {attendanceData.length > 0 && (
+  <div className="mt-4 flex justify-center">
+    <button
+      onClick={downloadCSV}
+      className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
+    >
+      Download CSV
+    </button>
+  </div>
+)}
 
       {/* Search */}
-      <div className="mb-4">
+      <div className="mb-4 mt-4">
         <input
           type="text"
           placeholder="Search by Name, ID, or Designation"
