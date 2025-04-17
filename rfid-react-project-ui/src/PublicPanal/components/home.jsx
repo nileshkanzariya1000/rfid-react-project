@@ -7,10 +7,10 @@ export default function HomePage() {
         <nav className="flex justify-between items-center p-4 shadow-md bg-black text-white">
   <h1 className="text-xl font-bold text-green-400">RFID SYSTEM</h1>
   <div className="space-x-4">
-    <a href="#" className="hover:text-green-400">Product</a>
-    <a href="#" className="hover:text-green-400">Feature</a>
-    <a href="#" className="hover:text-green-400">Resource</a>
-    <a href="#" className="hover:text-green-400">Pricing</a>
+  <a href="/product" className="hover:text-green-400">Product</a>
+          <a href="/feature" className="hover:text-green-400">Feature</a>
+          <a href="/resources" className="hover:text-green-400">Resource</a>
+          <a href="/pricing" className="hover:text-green-400">Pricing</a>
     <a href="/Adminlogin" className="hover:text-green-400">Admin</a>
   </div>
   <div className="space-x-4">

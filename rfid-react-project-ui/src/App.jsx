@@ -27,6 +27,14 @@ import TokensDetails from "./AdminPanal/components/adminTokensDetails";
 import PurchasedTokens from "./AdminPanal/components/PurchasedTokens";
 import UserSubject from "./UserPanal/components/userSubject";
 import ViewAttendance from "./UserPanal/components/viewAttendance";
+
+// New page imports
+import ProductPage from "./PublicPanal/components/product";
+import FeaturePage from "./PublicPanal/components/Feature";
+import ResourcesPage from "./PublicPanal/components/Resources";
+import PricingPage from "./PublicPanal/components/Pricing";
+import ContactPage from "./PublicPanal/components/contact";
+
 function App() {
   return (
     <Router>
@@ -38,6 +46,14 @@ function App() {
         <Route path="/UserRegister" element={<UserRegister />} />
         <Route path="/ClientLogin" element={<ClientLogin />} />
         <Route path="/ClientRegister" element={<ClientRegister />} />
+
+
+  {/* New public routes */}
+        <Route path="/product" element={<ProductPage />} />
+        <Route path="/feature" element={<FeaturePage />} />
+        <Route path="/resources" element={<ResourcesPage />} />
+        <Route path="/pricing" element={<PricingPage />} />
+        <Route path="/contact" element={<ContactPage />} />
 
         {/* User Routes */}
         <Route path="/UserDashboard" element={<UserDashboard />}>
