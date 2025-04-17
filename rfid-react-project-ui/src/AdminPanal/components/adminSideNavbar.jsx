@@ -41,7 +41,7 @@ const AdminSideNavbar = ({ isOpen, setIsOpen }) => {
   };
 
   return (
-    <div className={`h-screen bg-black text-white p-4 ${isOpen ? "w-64" : "w-16"} flex flex-col transition-all duration-300 fixed top-0 left-0 z-50`}>      
+    <div className={`h-screen bg-black text-white p-4 ${isOpen ? "w-72" : "w-16"} flex flex-col transition-all duration-300 fixed top-0 left-0 z-50`}>      
       <div className="flex items-center justify-between mb-4">
         {isOpen && <span className="text-white text-2xl font-bold">Admin</span>}
         <button onClick={() => setIsOpen(!isOpen)} className="p-2 rounded hover:bg-gray-700 ml-auto">

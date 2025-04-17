@@ -13,6 +13,13 @@ const UserDashboard = () => {
   }
 
   return (
+    <div>
+    <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="\rfid-svgrepo-com.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Dashboard</title>
+  </head>
     <div className="flex min-h-screen">
       {/* Sidebar */}
       <UserSideNavbar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
@@ -25,6 +32,7 @@ const UserDashboard = () => {
         {/* Render nested routes */}
         <Outlet />
       </div>
+    </div>
     </div>
   );
 };
