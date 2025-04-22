@@ -100,6 +100,44 @@ const ResourcesPage = () => {
           </div>
         </div>
       </div>
+       {/* Footer */}
+       <footer className="bg-black text-white py-8 px-8">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <h3 className="text-xl font-bold mb-4">RFID SYSTEM</h3>
+            <p className="text-gray-400">Advanced attendance tracking solutions for organizations of all sizes.</p>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-4">Quick Links</h4>
+            <ul className="space-y-2">
+              <li><a href="/" className="text-gray-400 hover:text-white">Home</a></li>
+              <li><a href="/product" className="text-gray-400 hover:text-white">Product</a></li>
+              <li><a href="/feature" className="text-gray-400 hover:text-white">Features</a></li>
+              <li><a href="/pricing" className="text-gray-400 hover:text-white">Pricing</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-4">Resources</h4>
+            <ul className="space-y-2">
+              <li><a href="/resources" className="text-gray-400 hover:text-white">Documentation</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white">Support</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white">Blog</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white">Case Studies</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-4">Contact</h4>
+            <ul className="space-y-2 text-gray-400">
+              <li>Email: contact@rfidsystem.com</li>
+              <li>Phone: (123) 456-7890</li>
+              <li>Address: 123 Tech Street, Suite 100</li>
+            </ul>
+          </div>
+        </div>
+        <div className="max-w-6xl mx-auto mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
+          <p>© 2025 RFID System. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 };

@@ -247,8 +247,8 @@ const AdminTokensDetails = () => {
                 }
                 className="border p-2 rounded"
               >
-                <option value={1}>Active</option>
-                <option value={0}>Inactive</option>
+                <option value={0}>Active</option>
+                <option value={1}>Inactive</option>
               </select>
               <button
                 onClick={handleUpdateToken}

@@ -40,10 +40,8 @@ export default function ProductPage() {
           <h1 className="text-4xl font-bold mb-4">Advanced RFID Attendance System</h1>
           <p className="text-xl mb-8">Revolutionize how you track attendance with our cutting-edge RFID technology</p>
           <div className="flex justify-center gap-4">
-            <button className="bg-white text-green-600 px-6 py-3 rounded-md font-medium hover:bg-gray-100">
-              Schedule Demo
-            </button>
-            <button className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-md font-medium hover:bg-green-600">
+            
+            <button className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-md font-medium hover:bg-green-600" onClick={() => navigate("/feature")}>
               Learn More
             </button>
           </div>
@@ -165,7 +163,7 @@ export default function ProductPage() {
           <h2 className="text-3xl font-bold mb-4">Ready to transform your attendance management?</h2>
           <p className="text-xl mb-8">Get in touch with our team to schedule a personalized demo</p>
           <div className="flex justify-center gap-4">
-            <button className="bg-white text-green-600 px-6 py-3 rounded-md font-medium hover:bg-gray-100">
+            <button className="bg-white text-green-600 px-6 py-3 rounded-md font-medium hover:bg-gray-100" onClick={() => navigate("/contact")}>
               Schedule Demo
             </button>
             <button 
@@ -179,7 +177,7 @@ export default function ProductPage() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-gray-800 text-white py-8 px-8">
+      <footer className="bg-black text-white py-8 px-8">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h3 className="text-xl font-bold mb-4">RFID SYSTEM</h3>

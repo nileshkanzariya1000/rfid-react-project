@@ -11,6 +11,7 @@ export default function HomePage() {
           <a href="/feature" className="hover:text-green-400">Feature</a>
           <a href="/resources" className="hover:text-green-400">Resource</a>
           <a href="/pricing" className="hover:text-green-400">Pricing</a>
+          <a href="/contact" className="hover:text-green-400">Contact</a>
     <a href="/Adminlogin" className="hover:text-green-400">Admin</a>
   </div>
   <div className="space-x-4">
@@ -34,8 +35,8 @@ className="bg-green-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
             <h2 className="text-3xl font-bold">RFID based embedded attendance system</h2>
             <p className="mt-2">An RFID-based embedded system website for attendance tracking, access control, and real-time monitoring.</p>
             <div className="mt-4 space-x-2">
-            <button className="bg-white hover:bg-black text-green-500 py-2 px-4 rounded">Get Started Today</button>
-              <button className="bg-white hover:bg-black text-green-500 py-2 px-4 rounded">Request a Demo</button>
+            <button className="bg-white hover:bg-black text-green-500 py-2 px-4 rounded" onClick={() => navigate("/feature")}>Get Started Today</button>
+              <button className="bg-white hover:bg-black text-green-500 py-2 px-4 rounded" onClick={() => navigate("/contact")}>Request a Demo</button>
             </div>
           </div>
         </section>
@@ -55,8 +56,51 @@ className="bg-green-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
         <section className="bg-green-500 text-white p-10 text-center m-10 rounded-xl">
           <h3 className="text-2xl font-bold">Create your complete Package System</h3>
           <p className="mt-2">Automate for more than 10 roles at once and looking for a comprehensive solution?</p>
-          <button className="bg-white text-green-500 py-2 px-4 rounded mt-4">See pricing</button>
+          <button
+            className="bg-white text-green-500 py-2 px-4 rounded mt-4"
+            onClick={() => window.location.href = '/pricing'}
+          >
+            See pricing
+          </button>
         </section>
+         {/* Footer */}
+       <footer className="bg-black text-white py-8 px-8">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <h3 className="text-xl font-bold mb-4">RFID SYSTEM</h3>
+            <p className="text-gray-400">Advanced attendance tracking solutions for organizations of all sizes.</p>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-4">Quick Links</h4>
+            <ul className="space-y-2">
+              <li><a href="/" className="text-gray-400 hover:text-white">Home</a></li>
+              <li><a href="/product" className="text-gray-400 hover:text-white">Product</a></li>
+              <li><a href="/feature" className="text-gray-400 hover:text-white">Features</a></li>
+              <li><a href="/pricing" className="text-gray-400 hover:text-white">Pricing</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-4">Resources</h4>
+            <ul className="space-y-2">
+              <li><a href="/resources" className="text-gray-400 hover:text-white">Documentation</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white">Support</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white">Blog</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white">Case Studies</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-4">Contact</h4>
+            <ul className="space-y-2 text-gray-400">
+              <li>Email: nhkanzariya582@rku.ac.in</li>
+              <li>Phone: +91 9737071292</li>
+              <li>Address: A 308,RK University Rajkot</li>
+            </ul>
+          </div>
+        </div>
+        <div className="max-w-6xl mx-auto mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
+          <p>© 2025 RFID System. All rights reserved.</p>
+        </div>
+      </footer>
       </div>
     );
   }

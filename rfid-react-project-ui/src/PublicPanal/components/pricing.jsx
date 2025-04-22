@@ -256,9 +256,7 @@ export default function PricingPage() {
           <h2 className="text-3xl font-bold mb-4">Ready to get started?</h2>
           <p className="text-xl mb-8">Start your 14-day free trial today. No credit card required.</p>
           <div className="flex justify-center gap-4 flex-wrap">
-            <button className="bg-white text-green-600 px-6 py-3 rounded-md font-medium hover:bg-gray-100">
-              Start Free Trial
-            </button>
+            
             <button className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-md font-medium hover:bg-green-600"
               onClick={() => navigate("/contact")}>
               Contact Sales
@@ -268,7 +266,7 @@ export default function PricingPage() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-gray-800 text-white py-8 px-8">
+      <footer className="bg-black text-white py-8 px-8">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h3 className="text-xl font-bold mb-4">RFID SYSTEM</h3>

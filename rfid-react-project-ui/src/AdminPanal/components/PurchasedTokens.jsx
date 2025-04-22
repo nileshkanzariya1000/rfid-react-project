@@ -162,8 +162,12 @@ const PurchasedTokens = () => {
                       {token.status === 0 ? "Active" : "Inactive"}
                     </span>
                   </td>
-                  <td className="p-3">{token.purchase_date || "N/A"}</td>
-                  <td className="p-3">{token.expire_date || "N/A"}</td>
+                  <td className="p-3">
+                    {token.purchase_date ? new Date(token.purchase_date).toLocaleDateString() : "N/A"}
+                  </td>
+                  <td className="p-3">
+                    {token.expire_date ? new Date(token.expire_date).toLocaleDateString() : "N/A"}
+                  </td>
                   <td className="p-3">{token.subject_name || "N/A"}</td>
                 </tr>
               ))}

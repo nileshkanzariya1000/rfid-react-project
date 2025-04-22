@@ -186,7 +186,7 @@ export default function FeaturePage() {
           <h2 className="text-3xl font-bold mb-6">Ready to see these features in action?</h2>
           <p className="text-xl text-gray-600 mb-8">Schedule a demo or contact our team to learn more about how our RFID system can benefit your organization.</p>
           <div className="flex justify-center gap-4 flex-wrap">
-            <button className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-md font-medium">
+            <button className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-md font-medium" onClick={() => navigate("/contact")}>
               Schedule a Demo
             </button>
             <button className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-md font-medium"
@@ -198,7 +198,7 @@ export default function FeaturePage() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-gray-800 text-white py-8 px-8">
+      <footer className="bg-black text-white py-8 px-8">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h3 className="text-xl font-bold mb-4">RFID SYSTEM</h3>
