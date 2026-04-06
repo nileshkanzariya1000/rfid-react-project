@@ -383,6 +383,23 @@ export const initiateRazorpayPayment = async ({ tokenDetails, passKey, subjectNa
       return reject('Razorpay not loaded');
     }
 
+    // Try to get client details from cookies for the prefill
+    let clientName = 'Your Name';
+    let clientEmail = 'your_email@example.com';
+    let clientContact = 'your_contact_number';
+    
+    try {
+      const clientData = Cookies.get("client_data");
+      if (clientData) {
+        const parsed = JSON.parse(clientData);
+        if (parsed.client_name) clientName = parsed.client_name;
+        if (parsed.client_email) clientEmail = parsed.client_email;
+        if (parsed.client_mobile) clientContact = parsed.client_mobile;
+      }
+    } catch (e) {
+      console.warn("Could not parse client cookies for prefill");
+    }
+
     const options = {
       key: 'rzp_test_YwZhdfMsPm2X45', // Replace with your real Razorpay key
       amount: tokenDetails.price * 100, // in paise
@@ -391,12 +408,12 @@ export const initiateRazorpayPayment = async ({ tokenDetails, passKey, subjectNa
       description: 'Purchase of token for subject',
       image: 'your_logo_url', // Optional logo
       prefill: {
-        name: 'Your Name',
-        email: 'your_email@example.com',
-        contact: 'your_contact_number',
+        name: clientName,
+        email: clientEmail,
+        contact: clientContact,
       },
       theme: {
-        color: '#528FF0',
+        color: '#00c950', // Updated to match brand color
       },
       handler: async (response) => {
         try {
@@ -410,6 +427,7 @@ export const initiateRazorpayPayment = async ({ tokenDetails, passKey, subjectNa
           const status = 0;
 
           // ✅ Call addNewSubject here
+          // client_id is extracted manually via Cookies inside addNewSubject
           const result = await addNewSubject(
             token_id,
             passKey,
@@ -494,4 +512,93 @@ export const initiateUpdateRazorpayPayment = async ({
 
   const rzp = new window.Razorpay(options);
   rzp.open();
+};
+
+// Leave Management Functions
+export const getLeaveRequests = async () => {
+    try {
+        const response = await fetch(`${config.baseURL}/getAllLeaveRequests`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+             return {
+                success: true,
+                data: data 
+            };
+        } else {
+             return {
+                success: false,
+                message: data.message || "Failed to fetch leave requests"
+            };
+        }
+    } catch (error) {
+         return {
+            success: false,
+            message: error.message || "Something went wrong"
+        };
+    }
+};
+
+export const updateLeaveStatus = async (leave_id, status) => {
+    try {
+        const response = await fetch(`${config.baseURL}/updateLeaveStatus`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ leave_id, status }),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+             return {
+                success: true,
+                message: data.message || `Leave Request ${status}`
+            };
+        } else {
+             return {
+                success: false,
+                message: data.message || "Failed to update status"
+            };
+        }
+    } catch (error) {
+         return {
+            success: false,
+            message: error.message || "Something went wrong"
+        };
+    }
+};
+
+export const fetchClientDashboardStats = async (client_id) => {
+    try {
+        const response = await fetch(`${config.baseURL}/getClientDashboardStats?client_id=${client_id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+             return {
+                success: true,
+                data: data.data
+            };
+        } else {
+             return {
+                success: false,
+                message: data.message || "Failed to fetch dashboard stats"
+            };
+        }
+    } catch (error) {
+         return {
+            success: false,
+            message: error.message || "Something went wrong"
+        };
+    }
 };

@@ -11,6 +11,7 @@ import {
   UserIcon,
   KeyIcon,
   CurrencyRupeeIcon,
+
 } from "@heroicons/react/24/solid";
 
 const AdminSideNavbar = ({ isOpen, setIsOpen }) => {
@@ -113,6 +114,8 @@ const AdminSideNavbar = ({ isOpen, setIsOpen }) => {
             {isOpen && <span>Purchased Tokens</span>}
           </Link>
         </li>
+
+
       </ul>
 
       <div className="mb-4">

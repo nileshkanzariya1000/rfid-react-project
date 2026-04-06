@@ -59,7 +59,7 @@ const ProcideToUpdate = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg text-center">
+    <div className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg text-center mt-10">
       <h1 className="text-2xl font-bold mb-2">Proceed to Payment</h1>
       <p className="text-lg text-green-600 font-semibold">Price: ₹{tokenDetails?.price || 'N/A'}</p>
       <p className="text-lg text-green-600 font-semibold">Token Name: {tokenDetails?.name || 'N/A'}</p>

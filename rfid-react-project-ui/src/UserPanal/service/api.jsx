@@ -170,6 +170,67 @@ export const getPunchRecordByUser = async (ct_id,from_date,to_date) => {
   }
 };
 
+// Leave Management Functions
+export const applyLeave = async (user_id, reason, start_date, end_date) => {
+    try {
+        const response = await fetch(`${config.baseURL}/applyLeave`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ user_id, reason, start_date, end_date }),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            return {
+                success: true,
+                message: data.message || "Leave application submitted successfully",
+                data: data 
+            };
+        } else {
+             return {
+                success: false,
+                message: data.message || "Failed to submit leave request"
+            };
+        }
+    } catch (error) {
+         return {
+            success: false,
+            message: error.message || "Something went wrong"
+        };
+    }
+};
+
+export const getUserLeaves = async (user_id) => {
+    try {
+        const response = await fetch(`${config.baseURL}/getUserLeaves?user_id=${user_id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+             return {
+                success: true,
+                data: data // Ensure backend returns array or {data: []}
+            };
+        } else {
+             return {
+                success: false,
+                message: data.message || "Failed to fetch leaves"
+            };
+        }
+    } catch (error) {
+         return {
+            success: false,
+            message: error.message || "Something went wrong"
+        };
+    }
+};
+
 
 
 

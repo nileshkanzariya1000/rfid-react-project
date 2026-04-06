@@ -1,50 +1,30 @@
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import SharedNavbar from "./SharedNavbar";
+import SharedFooter from "./SharedFooter";
+import {
+  CheckCircleIcon,
+  ArrowRightIcon,
+  SparklesIcon
+} from "@heroicons/react/24/outline";
 
 export default function PricingPage() {
   const navigate = useNavigate();
   
   return (
     <div className="bg-white min-h-screen">
-      {/* Navbar */}
-      <nav className="flex justify-between items-center p-4 shadow-md bg-black text-white">
-      <Link to="/">
-  <h1 className="text-xl font-bold text-green-400">RFID SYSTEM</h1>
-</Link>
-        <div className="space-x-4">
-          <a href="/product" className="hover:text-green-400">Product</a>
-          <a href="/feature" className="hover:text-green-400">Feature</a>
-          <a href="/resources" className="hover:text-green-400">Resource</a>
-          <a href="/pricing" className="hover:text-green-400">Pricing</a>
-          <a href="/contact" className="hover:text-green-400">Contact</a>
-          <a href="/Adminlogin" className="hover:text-green-400">Admin</a>
-        </div>
-        <div className="space-x-4">
-          <button
-            className="bg-green-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
-            onClick={() => navigate("/ClientLogin")} // Navigation on button click
-          >
-            Client
-          </button>
-          <button
-            className="bg-green-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
-            onClick={() => navigate("/UserLogin")} // Navigation on button click
-          >
-            User
-          </button>
-        </div>
-      </nav>
+      <SharedNavbar />
 
       {/* Hero Section */}
-      <div className="bg-green-500 text-white py-16 px-8">
+      <div className="bg-gradient-to-r from-green-500 to-green-600 text-white py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto text-center">
-          <h1 className="text-4xl font-bold mb-4">Simple, Transparent Pricing</h1>
-          <p className="text-xl mb-8">Choose the plan that fits your organization's needs</p>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Simple, Transparent Pricing</h1>
+          <p className="text-xl mb-8 text-green-50">Choose the plan that fits your organization's needs</p>
           <div className="flex justify-center">
-            <div className="bg-white p-2 inline-flex rounded-full">
-              <button className="py-2 px-6 rounded-full bg-green-600 text-white focus:outline-none">
+            <div className="bg-white/20 backdrop-blur-sm p-2 inline-flex rounded-full border border-white/30">
+              <button className="py-2 px-6 rounded-full bg-white text-green-600 font-semibold focus:outline-none shadow-lg">
                 Monthly Billing
               </button>
-              <button className="py-2 px-6 rounded-full text-green-600 focus:outline-none">
+              <button className="py-2 px-6 rounded-full text-white hover:bg-white/10 focus:outline-none transition-colors">
                 Annual Billing (Save 20%)
               </button>
             </div>
@@ -53,21 +33,21 @@ export default function PricingPage() {
       </div>
 
       {/* Pricing Plans */}
-      <div className="py-16 px-8 max-w-6xl mx-auto">
+      <div className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Starter Plan */}
-          <div className="border rounded-lg shadow-lg overflow-hidden">
-            <div className="bg-gray-50 p-6">
-              <h3 className="text-xl font-bold mb-1">Starter</h3>
+          <div className="bg-white border-2 border-gray-200 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+            <div className="bg-gray-50 p-6 border-b border-gray-200">
+              <h3 className="text-2xl font-bold mb-2 text-gray-900">Starter</h3>
               <p className="text-gray-600 mb-4">For small teams and classrooms</p>
               <div className="flex items-baseline">
-                <span className="text-4xl font-bold">$99</span>
-                <span className="text-gray-600 ml-2">/month</span>
+                <span className="text-5xl font-bold text-gray-900">$99</span>
+                <span className="text-gray-600 ml-2 text-lg">/month</span>
               </div>
               <p className="text-gray-500 mt-2">Up to 50 users</p>
             </div>
             <div className="p-6">
-              <ul className="space-y-3">
+              <ul className="space-y-4 mb-8">
                 {[
                   "1 RFID reader included",
                   "Basic attendance reports",
@@ -76,37 +56,34 @@ export default function PricingPage() {
                   "90-day data retention"
                 ].map((feature, index) => (
                   <li key={index} className="flex items-start">
-                    <div className="text-green-500 mr-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                    <span>{feature}</span>
+                    <CheckCircleIcon className="w-6 h-6 text-green-500 mr-3 flex-shrink-0" />
+                    <span className="text-gray-700">{feature}</span>
                   </li>
                 ))}
               </ul>
-              <button className="w-full mt-8 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded">
+              <button className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 py-3 px-4 rounded-lg font-semibold transition-all duration-300">
                 Get Started
               </button>
             </div>
           </div>
 
           {/* Professional Plan */}
-          <div className="border rounded-lg shadow-lg overflow-hidden relative">
-            <div className="absolute top-0 right-0 bg-green-500 text-white px-4 py-1 rounded-bl-lg">
+          <div className="bg-white border-2 border-green-500 rounded-xl shadow-2xl overflow-hidden relative transform scale-105 hover:scale-110 transition-all duration-300">
+            <div className="absolute top-0 right-0 bg-green-500 text-white px-4 py-2 rounded-bl-lg font-semibold text-sm">
+              <SparklesIcon className="w-4 h-4 inline mr-1" />
               Most Popular
             </div>
-            <div className="bg-gray-50 p-6">
-              <h3 className="text-xl font-bold mb-1">Professional</h3>
+            <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 border-b border-green-200">
+              <h3 className="text-2xl font-bold mb-2 text-gray-900">Professional</h3>
               <p className="text-gray-600 mb-4">For growing schools and businesses</p>
               <div className="flex items-baseline">
-                <span className="text-4xl font-bold">$249</span>
-                <span className="text-gray-600 ml-2">/month</span>
+                <span className="text-5xl font-bold text-gray-900">$249</span>
+                <span className="text-gray-600 ml-2 text-lg">/month</span>
               </div>
               <p className="text-gray-500 mt-2">Up to 250 users</p>
             </div>
             <div className="p-6">
-              <ul className="space-y-3">
+              <ul className="space-y-4 mb-8">
                 {[
                   "3 RFID readers included",
                   "Advanced attendance analytics",
@@ -116,34 +93,30 @@ export default function PricingPage() {
                   "API access"
                 ].map((feature, index) => (
                   <li key={index} className="flex items-start">
-                    <div className="text-green-500 mr-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                    <span>{feature}</span>
+                    <CheckCircleIcon className="w-6 h-6 text-green-500 mr-3 flex-shrink-0" />
+                    <span className="text-gray-700">{feature}</span>
                   </li>
                 ))}
               </ul>
-              <button className="w-full mt-8 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded">
+              <button className="w-full bg-green-500 hover:bg-green-600 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
                 Get Started
               </button>
             </div>
           </div>
 
           {/* Enterprise Plan */}
-          <div className="border rounded-lg shadow-lg overflow-hidden">
-            <div className="bg-gray-50 p-6">
-              <h3 className="text-xl font-bold mb-1">Enterprise</h3>
+          <div className="bg-white border-2 border-gray-200 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+            <div className="bg-gray-50 p-6 border-b border-gray-200">
+              <h3 className="text-2xl font-bold mb-2 text-gray-900">Enterprise</h3>
               <p className="text-gray-600 mb-4">For large institutions and organizations</p>
               <div className="flex items-baseline">
-                <span className="text-4xl font-bold">$499</span>
-                <span className="text-gray-600 ml-2">/month</span>
+                <span className="text-5xl font-bold text-gray-900">$499</span>
+                <span className="text-gray-600 ml-2 text-lg">/month</span>
               </div>
               <p className="text-gray-500 mt-2">Unlimited users</p>
             </div>
             <div className="p-6">
-              <ul className="space-y-3">
+              <ul className="space-y-4 mb-8">
                 {[
                   "10 RFID readers included",
                   "Custom reporting & analytics",
@@ -155,16 +128,12 @@ export default function PricingPage() {
                   "Multi-location support"
                 ].map((feature, index) => (
                   <li key={index} className="flex items-start">
-                    <div className="text-green-500 mr-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                    <span>{feature}</span>
+                    <CheckCircleIcon className="w-6 h-6 text-green-500 mr-3 flex-shrink-0" />
+                    <span className="text-gray-700">{feature}</span>
                   </li>
                 ))}
               </ul>
-              <button className="w-full mt-8 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded">
+              <button className="w-full bg-gray-800 hover:bg-gray-900 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
                 Contact Sales
               </button>
             </div>
@@ -173,10 +142,13 @@ export default function PricingPage() {
       </div>
 
       {/* Add-ons Section */}
-      <div className="bg-gray-100 py-16 px-8">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold mb-12 text-center">Additional Add-ons</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Additional Add-ons</h2>
+            <p className="text-gray-600 text-lg">Enhance your plan with these powerful add-ons</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
               {
                 title: "Additional RFID Readers",
@@ -199,14 +171,14 @@ export default function PricingPage() {
                 price: "$79 per month"
               }
             ].map((addon, index) => (
-              <div key={index} className="bg-white p-6 rounded-lg shadow-md flex justify-between">
-                <div>
-                  <h3 className="text-xl font-semibold mb-2">{addon.title}</h3>
+              <div key={index} className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div className="flex-1">
+                  <h3 className="text-xl font-semibold mb-2 text-gray-900">{addon.title}</h3>
                   <p className="text-gray-600">{addon.description}</p>
                 </div>
-                <div className="text-right">
-                  <span className="block font-semibold text-green-600">{addon.price}</span>
-                  <button className="mt-2 bg-gray-200 hover:bg-gray-300 text-gray-800 py-1 px-3 rounded text-sm">
+                <div className="text-right md:text-left md:ml-4">
+                  <span className="block font-semibold text-green-600 text-lg mb-2">{addon.price}</span>
+                  <button className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg text-sm font-semibold transition-all duration-300 shadow-md hover:shadow-lg">
                     Add
                   </button>
                 </div>
@@ -217,8 +189,11 @@ export default function PricingPage() {
       </div>
 
       {/* FAQ Section */}
-      <div className="py-16 px-8 max-w-4xl mx-auto">
-        <h2 className="text-3xl font-bold mb-12 text-center">Frequently Asked Questions</h2>
+      <div className="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Frequently Asked Questions</h2>
+          <p className="text-gray-600 text-lg">Everything you need to know about our pricing</p>
+        </div>
         <div className="space-y-6">
           {[
             {
@@ -242,67 +217,32 @@ export default function PricingPage() {
               answer: "Yes, we offer a 14-day free trial that includes all features of our Professional plan. No credit card required to start your trial."
             }
           ].map((faq, index) => (
-            <div key={index} className="border-b border-gray-200 pb-6">
-              <h3 className="text-xl font-semibold mb-2">{faq.question}</h3>
-              <p className="text-gray-600">{faq.answer}</p>
+            <div key={index} className="bg-white border border-gray-200 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
+              <h3 className="text-xl font-semibold mb-3 text-gray-900">{faq.question}</h3>
+              <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
             </div>
           ))}
         </div>
       </div>
 
       {/* Call to Action */}
-      <div className="bg-green-500 text-white py-16 px-8">
+      <div className="bg-gradient-to-r from-green-500 to-green-600 text-white py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to get started?</h2>
-          <p className="text-xl mb-8">Start your 14-day free trial today. No credit card required.</p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to get started?</h2>
+          <p className="text-xl mb-8 text-green-50">Start your 14-day free trial today. No credit card required.</p>
           <div className="flex justify-center gap-4 flex-wrap">
-            
-            <button className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-md font-medium hover:bg-green-600"
-              onClick={() => navigate("/contact")}>
+            <button 
+              className="flex items-center gap-2 bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl"
+              onClick={() => navigate("/contact")}
+            >
               Contact Sales
+              <ArrowRightIcon className="w-5 h-5" />
             </button>
           </div>
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="bg-black text-white py-8 px-8">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div>
-            <h3 className="text-xl font-bold mb-4">RFID SYSTEM</h3>
-            <p className="text-gray-400">Advanced attendance tracking solutions for organizations of all sizes.</p>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-4">Quick Links</h4>
-            <ul className="space-y-2">
-              <li><a href="/" className="text-gray-400 hover:text-white">Home</a></li>
-              <li><a href="/product" className="text-gray-400 hover:text-white">Product</a></li>
-              <li><a href="/feature" className="text-gray-400 hover:text-white">Features</a></li>
-              <li><a href="/pricing" className="text-gray-400 hover:text-white">Pricing</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-4">Resources</h4>
-            <ul className="space-y-2">
-              <li><a href="/resources" className="text-gray-400 hover:text-white">Documentation</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Support</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Blog</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Case Studies</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-4">Contact</h4>
-            <ul className="space-y-2 text-gray-400">
-              <li>Email: contact@rfidsystem.com</li>
-              <li>Phone: (123) 456-7890</li>
-              <li>Address: 123 Tech Street, Suite 100</li>
-            </ul>
-          </div>
-        </div>
-        <div className="max-w-6xl mx-auto mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
-          <p>© 2025 RFID System. All rights reserved.</p>
-        </div>
-      </footer>
+      <SharedFooter />
     </div>
   );
 }

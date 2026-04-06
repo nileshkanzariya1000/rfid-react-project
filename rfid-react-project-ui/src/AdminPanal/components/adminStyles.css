@@ -1,0 +1,50 @@
+/* Global admin panel theme */
+:root {
+  --primary-bg: rgba(255, 255, 255, 0.15);
+  --primary-color: #ffffff;
+  --accent: hsl(210, 60%, 55%);
+  --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+/* Glassmorphism container */
+.glass-card {
+  background: var(--primary-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  color: var(--primary-color);
+  padding: 1.5rem;
+}
+
+.back-button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-bottom: 1rem;
+}
+.back-button:hover { background: hsl(210, 60%, 45%); }
+
+/* Modern form */
+.modern-form input, .modern-form textarea {
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+
+.glass-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 0.5rem;
+}
+.glass-table th, .glass-table td {
+  background: var(--primary-bg);
+  padding: 0.75rem;
+  border-radius: 8px;
+}

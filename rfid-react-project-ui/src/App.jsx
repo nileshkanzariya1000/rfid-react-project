@@ -6,7 +6,7 @@ import UserRegister from "./UserPanal/components/userRegister";
 import ClientLogin from "./ClientPanal/components/clientLogin";
 import ClientRegister from "./ClientPanal/components/clientRegister";
 import UserDashboard from "./UserPanal/components/userDashboard";
-import UserSideNavbar from "./UserPanal/components/UserSideNavbar";
+import UserSideNavbar from "./UserPanal/components/userSideNavbar";
 import UserEditProfile from "./UserPanal/components/userEditProfile";
 import UserEditPassword from "./UserPanal/components/UserEditPassword";
 import ClientSubject from "./ClientPanal/components/clientSubject";
@@ -27,6 +27,10 @@ import TokensDetails from "./AdminPanal/components/adminTokensDetails";
 import PurchasedTokens from "./AdminPanal/components/PurchasedTokens";
 import UserSubject from "./UserPanal/components/userSubject";
 import ViewAttendance from "./UserPanal/components/viewAttendance";
+import DashboardHome from "./UserPanal/components/dashboardHome";
+import UserLeave from "./UserPanal/components/UserLeave";
+import ClientLeaveRequests from "./ClientPanal/components/ClientLeaveRequests";
+import ClientDashboardHome from "./ClientPanal/components/ClientDashboardHome";
 
 // New page imports
 import ProductPage from "./PublicPanal/components/product";
@@ -57,10 +61,11 @@ function App() {
 
         {/* User Routes */}
         <Route path="/UserDashboard" element={<UserDashboard />}>
-        
+          <Route index element={<DashboardHome />} />
           <Route path="UserSideNavbar" element={<UserSideNavbar />} />
           <Route path="UserEditProfile" element={<UserEditProfile />} />
           <Route path="UserEditPassword" element={<UserEditPassword />} />
+          <Route path="UserLeave" element={<UserLeave />} />
           <Route path="subject/:subjectId/:subjectName" element={<UserSubject />} >
             <Route path="ViewAttendanceForUser/:ct_id" element={<ViewAttendance />} />
           </Route>
@@ -68,8 +73,10 @@ function App() {
 
         {/* Client Routes */}
         <Route path="/ClientDashboard" element={<ClientDashboard />}>
+          <Route index element={<ClientDashboardHome />} />
           <Route path="ClientEditProfile" element={<ClientEditProfile />} />
           <Route path="ClientEditPassword" element={<ClientEditPassword />} />
+          <Route path="ClientLeaveRequests" element={<ClientLeaveRequests />} />
           <Route path="AddNewSubject" element={<AddNewSubject />} >
           <Route path="ProcideToAdd/:token_id" element={<ProcideToAdd />} />
           </Route>
@@ -89,6 +96,7 @@ function App() {
           <Route path="ManageClients" element={<ManageClients />} />
           <Route path="AdminTokensDetails" element={<TokensDetails />} />
           <Route path="PurchasedTokens" element={<PurchasedTokens />} />
+
         </Route>
       </Routes>
     </Router>

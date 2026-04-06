@@ -126,7 +126,7 @@ const [userToDelete, setUserToDelete] = useState(null);
  
 
   return (
-    <div className="container mx-auto p-1">
+    <div className="container mx-auto">
       {/* Header and Add User Button */}
       <div className="flex justify-between items-center p-4">
         <h1 className="text-xl font-semibold">User List</h1>
