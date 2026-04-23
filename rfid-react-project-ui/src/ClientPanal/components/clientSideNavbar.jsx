@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import Cookies from "js-cookie";
 import {
   Bars3Icon,
+  XMarkIcon,
   PencilSquareIcon,
   KeyIcon,
   BookOpenIcon,
@@ -59,26 +60,27 @@ const ClientSideNavbar = ({ isOpen, setIsOpen }) => {
     location.pathname === path || location.pathname.startsWith(path + "/");
 
   return (
-    <div
-      className={`h-screen bg-black text-white p-4 ${
-        isOpen ? "w-72" : "w-16"
-      } flex flex-col transition-all duration-300 fixed top-0 left-0 z-50 shadow-2xl`}
-    >
+    <div className={`h-screen bg-black text-white ${isOpen ? "w-72 p-4" : "w-20 p-2"} flex flex-col transition-all duration-300 fixed top-0 left-0 z-50 shadow-2xl`}>      
+      
       {/* Title Row */}
-      <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-800">
+      <div className={`flex items-center ${isOpen ? "justify-between mb-6 pb-4 border-b border-gray-800" : "justify-center mb-8"}`}>
         {isOpen && (
           <div className="flex items-center gap-2">
             <div className="bg-gray-800 p-2 rounded-lg">
               <BookOpenIconSolid className="w-5 h-5 text-white" />
             </div>
-            <h1 className="text-xl font-bold text-white">Client Dashboard</h1>
+            <h1 className="text-xl font-bold text-white">Client Panel</h1>
           </div>
         )}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="p-2 rounded-lg hover:bg-gray-800 transition-colors duration-200"
+          className={`p-2 rounded-lg hover:bg-gray-800 transition-colors duration-200 ${isOpen ? "ml-auto" : ""}`}
         >
-          <Bars3Icon className="w-6 h-6 text-white" />
+          {isOpen ? (
+            <XMarkIcon className="w-8 h-8 text-white animate-in spin-in-90 duration-300" />
+          ) : (
+            <Bars3Icon className="w-8 h-8 text-white animate-in fade-in duration-300" />
+          )}
         </button>
       </div>
 
@@ -92,134 +94,126 @@ const ClientSideNavbar = ({ isOpen, setIsOpen }) => {
               placeholder="Search subjects..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-700 border border-gray-800 transition-all"
+              className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-700 border border-gray-800 transition-all font-medium text-sm"
             />
           </div>
         ) : (
           <div className="flex justify-center">
-            <div className="p-2 rounded-lg hover:bg-gray-800 transition-colors cursor-pointer">
-              <MagnifyingGlassIcon className="w-6 h-6 text-gray-300 hover:text-green-500" />
+            <div className="p-3 rounded-lg hover:bg-gray-800 transition-colors cursor-pointer group">
+              <MagnifyingGlassIcon className="w-6 h-6 text-gray-400 group-hover:text-green-500" />
             </div>
           </div>
         )}
       </div>
 
       {/* Menu Items */}
-      <ul className="space-y-2 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
-        {/* Dashboard Home */}
+      <ul className="space-y-4 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
+        
         <Link to="/ClientDashboard">
           <li
-            className={`flex items-center gap-3 cursor-pointer p-3 rounded-lg transition-all duration-200 ${
-              isActive("/ClientDashboard") && location.pathname === "/ClientDashboard"
-                ? "bg-green-500 text-white"
-                : "hover:bg-gray-800 text-gray-300 hover:text-green-500"
+            className={`flex items-center cursor-pointer p-3 rounded-xl transition-all duration-200 ${isOpen ? "gap-4" : "justify-center"} ${
+              location.pathname === "/ClientDashboard"
+                ? "bg-green-500 text-white shadow-lg shadow-green-500/20"
+                : "hover:bg-gray-800 text-gray-400 hover:text-white"
             }`}
           >
-            {isActive("/ClientDashboard") && location.pathname === "/ClientDashboard" ? (
-              <HomeIconSolid className="w-5 h-5" />
+            {location.pathname === "/ClientDashboard" ? (
+              <HomeIconSolid className="w-6 h-6" />
             ) : (
-              <HomeIcon className="w-5 h-5" />
+              <HomeIcon className="w-6 h-6" />
             )}
-            {isOpen && <span className="font-medium">Dashboard</span>}
+            {isOpen && <span className="font-semibold text-sm">Dashboard</span>}
           </li>
         </Link>
 
-        {/* Edit Profile */}
         <Link to="/ClientDashboard/ClientEditProfile">
           <li
-            className={`flex items-center gap-3 cursor-pointer p-3 rounded-lg transition-all duration-200 ${
+            className={`flex items-center cursor-pointer p-3 rounded-xl transition-all duration-200 ${isOpen ? "gap-4" : "justify-center"} ${
               isActive("/ClientDashboard/ClientEditProfile")
-                ? "bg-green-500 text-white"
-                : "hover:bg-gray-800 text-gray-300 hover:text-green-500"
+                ? "bg-green-500 text-white shadow-lg shadow-green-500/20"
+                : "hover:bg-gray-800 text-gray-400 hover:text-white"
             }`}
           >
             {isActive("/ClientDashboard/ClientEditProfile") ? (
-              <PencilSquareIconSolid className="w-5 h-5" />
+              <PencilSquareIconSolid className="w-6 h-6" />
             ) : (
-              <PencilSquareIcon className="w-5 h-5" />
+              <PencilSquareIcon className="w-6 h-6" />
             )}
-            {isOpen && <span className="font-medium">Edit Profile</span>}
+            {isOpen && <span className="font-semibold text-sm">Edit Profile</span>}
           </li>
         </Link>
 
-        {/* Change Password */}
         <Link to="/ClientDashboard/ClientEditPassword">
           <li
-            className={`flex items-center gap-3 cursor-pointer p-3 rounded-lg transition-all duration-200 ${
+            className={`flex items-center cursor-pointer p-3 rounded-xl transition-all duration-200 ${isOpen ? "gap-4" : "justify-center"} ${
               isActive("/ClientDashboard/ClientEditPassword")
-                ? "bg-green-500 text-white"
-                : "hover:bg-gray-800 text-gray-300 hover:text-green-500"
+                ? "bg-green-500 text-white shadow-lg shadow-green-500/20"
+                : "hover:bg-gray-800 text-gray-400 hover:text-white"
             }`}
           >
             {isActive("/ClientDashboard/ClientEditPassword") ? (
-              <KeyIconSolid className="w-5 h-5" />
+              <KeyIconSolid className="w-6 h-6" />
             ) : (
-              <KeyIcon className="w-5 h-5" />
+              <KeyIcon className="w-6 h-6" />
             )}
-            {isOpen && <span className="font-medium">Change Password</span>}
+            {isOpen && <span className="font-semibold text-sm">Security</span>}
           </li>
         </Link>
 
-        {/* Manage Leaves */}
         <Link to="/ClientDashboard/ClientLeaveRequests">
           <li
-            className={`flex items-center gap-3 cursor-pointer p-3 rounded-lg transition-all duration-200 ${
+            className={`flex items-center cursor-pointer p-3 rounded-xl transition-all duration-200 ${isOpen ? "gap-4" : "justify-center"} ${
               isActive("/ClientDashboard/ClientLeaveRequests")
-                ? "bg-green-500 text-white"
-                : "hover:bg-gray-800 text-gray-300 hover:text-green-500"
+                ? "bg-green-500 text-white shadow-lg shadow-green-500/20"
+                : "hover:bg-gray-800 text-gray-400 hover:text-white"
             }`}
           >
             {isActive("/ClientDashboard/ClientLeaveRequests") ? (
-              <ClipboardDocumentCheckIconSolid className="w-5 h-5" />
+              <ClipboardDocumentCheckIconSolid className="w-6 h-6" />
             ) : (
-              <ClipboardDocumentCheckIcon className="w-5 h-5" />
+              <ClipboardDocumentCheckIcon className="w-6 h-6" />
             )}
-            {isOpen && <span className="font-medium">Manage Leaves</span>}
+            {isOpen && <span className="font-semibold text-sm">Manage Leaves</span>}
           </li>
         </Link>
 
-        {/* Add New Subject */}
         <Link to="/ClientDashboard/AddNewSubject">
           <li
-            className={`flex items-center gap-3 cursor-pointer p-3 rounded-lg transition-all duration-200 ${
+            className={`flex items-center cursor-pointer p-3 rounded-xl transition-all duration-200 ${isOpen ? "gap-4" : "justify-center"} ${
               isActive("/ClientDashboard/AddNewSubject")
-                ? "bg-green-500 text-white"
-                : "hover:bg-gray-800 text-gray-300 hover:text-green-500"
+                ? "bg-green-500 text-white shadow-lg shadow-green-500/20"
+                : "hover:bg-gray-800 text-gray-400 hover:text-white"
             }`}
           >
-            <PlusIcon className="w-5 h-5" />
-            {isOpen && <span className="font-medium">Add New Subject</span>}
+            <PlusIcon className="w-6 h-6" />
+            {isOpen && <span className="font-semibold text-sm">Add New Subject</span>}
           </li>
         </Link>
 
-        {/* View Subjects Dropdown */}
-        <li>
+        {/* Subjects Dropdown */}
+        <li className="space-y-2">
           <div
-            className={`flex items-center justify-between cursor-pointer p-3 rounded-lg transition-all duration-200 ${
+            className={`flex items-center justify-between cursor-pointer p-3 rounded-xl transition-all duration-200 ${
               location.pathname.includes("/subject/")
-                ? "bg-green-500 text-white"
-                : "hover:bg-gray-800 text-gray-300 hover:text-green-500"
+                ? "bg-green-500/10 text-green-500"
+                : "hover:bg-gray-800 text-gray-400 hover:text-white"
             }`}
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           >
-            <span className="flex items-center gap-3">
-              {location.pathname.includes("/subject/") ? (
-                <BookOpenIconSolid className="w-5 h-5" />
-              ) : (
-                <BookOpenIcon className="w-5 h-5" />
-              )}
-              {isOpen && <span className="font-medium">View Subjects</span>}
-            </span>
+            <div className={`flex items-center ${isOpen ? "gap-4" : "justify-center flex-1"}`}>
+              <BookOpenIcon className={`w-6 h-6 ${location.pathname.includes("/subject/") ? "text-green-500" : ""}`} />
+              {isOpen && <span className="font-semibold text-sm">View Subjects</span>}
+            </div>
             {isOpen &&
               (isDropdownOpen ? (
-                <ChevronUpIcon className="w-4 h-4 text-gray-400" />
+                <ChevronUpIcon className="w-4 h-4" />
               ) : (
-                <ChevronDownIcon className="w-4 h-4 text-gray-400" />
+                <ChevronDownIcon className="w-4 h-4" />
               ))}
           </div>
 
           {isDropdownOpen && isOpen && (
-            <ul className="mt-2 space-y-1 pl-2 border-l-2 border-gray-800 ml-3">
+            <ul className="space-y-1 ml-4 border-l border-gray-800 animate-in slide-in-from-left-2 duration-300">
               {filteredSubjects.length > 0 ? (
                 filteredSubjects.map((subject) => {
                   const subjectPath = `/ClientDashboard/subject/${subject.ct_id}/${encodeURIComponent(subject.subject_name)}`;
@@ -227,29 +221,21 @@ const ClientSideNavbar = ({ isOpen, setIsOpen }) => {
                   return (
                     <Link to={subjectPath} key={subject.ct_id}>
                       <li
-                        className={`cursor-pointer p-2.5 rounded-lg transition-all duration-200 ${
+                        className={`flex items-center gap-3 cursor-pointer p-2.5 ml-3 rounded-lg transition-all duration-200 ${
                           isSubjectActive
-                            ? "bg-green-500 text-white"
-                            : "hover:bg-gray-800 text-gray-400 hover:text-green-400"
+                            ? "text-green-500 bg-green-500/5 font-bold"
+                            : "text-gray-500 hover:text-gray-300 hover:bg-gray-800/50"
                         }`}
                       >
-                        <div className="flex items-center gap-2">
-                          <div
-                            className={`w-2 h-2 rounded-full ${
-                              isSubjectActive ? "bg-white" : "bg-gray-600"
-                            }`}
-                          />
-                          <span className="text-sm truncate">
-                            {subject.subject_name}
-                          </span>
-                        </div>
+                        <div className={`w-1.5 h-1.5 rounded-full ${isSubjectActive ? "bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]" : "bg-gray-700"}`}></div>
+                        <span className="text-xs truncate">{subject.subject_name}</span>
                       </li>
                     </Link>
                   );
                 })
               ) : (
-                <li className="p-2 text-gray-500 text-sm italic">
-                  {searchQuery ? "No subjects found" : "No subjects available"}
+                <li className="p-2 ml-3 text-gray-600 text-xs italic">
+                  {searchQuery ? "No matches" : "Empty list"}
                 </li>
               )}
             </ul>
@@ -258,16 +244,22 @@ const ClientSideNavbar = ({ isOpen, setIsOpen }) => {
       </ul>
 
       {/* Profile Section */}
-      {isOpen && (
-        <div className="mt-auto mb-4 p-3 bg-gray-900 rounded-lg border border-gray-800">
+      {isOpen ? (
+        <div className="mt-auto mb-4 p-3 bg-gray-900 rounded-xl border border-gray-800 animate-in fade-in duration-300">
           <div className="flex items-center gap-3">
-            <div className="bg-gray-800 p-2 rounded-full">
+            <div className="bg-gray-800 p-2 rounded-full ring-2 ring-gray-700">
               <UserIcon className="w-6 h-6 text-white" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-semibold text-white truncate">{client_name}</p>
-              <p className="text-xs text-gray-400">Client</p>
+              <p className="font-bold text-white truncate text-sm">{client_name}</p>
+              <p className="text-[10px] text-gray-500 uppercase tracking-wider font-bold">Client Panel</p>
             </div>
+          </div>
+        </div>
+      ) : (
+        <div className="mt-auto mb-4 flex justify-center">
+          <div className="bg-gray-800 p-2 rounded-full ring-2 ring-gray-700 cursor-pointer hover:ring-green-500 transition-all">
+            <UserIcon className="w-6 h-6 text-white" />
           </div>
         </div>
       )}
@@ -276,10 +268,10 @@ const ClientSideNavbar = ({ isOpen, setIsOpen }) => {
       <div className="mb-2">
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-3 cursor-pointer p-3 rounded-lg bg-gray-900 hover:bg-gray-800 text-gray-300 hover:text-red-500 transition-all duration-200 border border-gray-800"
+          className={`w-full flex items-center cursor-pointer p-3 rounded-xl bg-gray-900 border border-gray-800 hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-500 text-gray-400 transition-all duration-200 ${isOpen ? "gap-4" : "justify-center"}`}
         >
-          <ArrowLeftOnRectangleIcon className="w-5 h-5" />
-          {isOpen && <span className="font-medium">Logout</span>}
+          <ArrowLeftOnRectangleIcon className="w-6 h-6" />
+          {isOpen && <span className="font-semibold text-sm">Logout</span>}
         </button>
       </div>
     </div>

@@ -21,9 +21,8 @@ const AdminDashboard = () => {
 
       {/* Main Content */}
       <div
-        className={`flex-1 ${isSidebarOpen ? "ml-72" : "ml-16"} p-6 bg-gray-100 overflow-auto transition-all duration-300`}
+        className={`flex-1 ${isSidebarOpen ? "ml-72" : "ml-20"} bg-[#f4f7fe] min-h-screen overflow-auto transition-all duration-300 relative`}
       >
-        <h1 className="text-2xl font-semibold">Admin Dashboard</h1>
         {/* Render nested routes here */}
         <Outlet />
       </div>

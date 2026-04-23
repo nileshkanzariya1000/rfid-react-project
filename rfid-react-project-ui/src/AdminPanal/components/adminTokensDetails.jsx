@@ -7,7 +7,7 @@ import {
   editTokenDetails,
   addNewToken,
 } from "../service/api";
-import { Search, Edit, Check, PlusCircle, X } from "lucide-react";
+import { Search, Edit, Check, PlusCircle, X, ChevronRight, Hash, Activity } from "lucide-react";
 
 const AdminTokensDetails = () => {
   const adminData = Cookies.get("admin_data");
@@ -115,66 +115,74 @@ const AdminTokensDetails = () => {
   };
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
-      <h2 className="text-3xl font-semibold text-center mb-6 text-gray-800">
-        Manage Tokens
-      </h2>
+    <div className="p-5 lg:p-8 font-sans text-gray-800 bg-[#f4f7fe] min-h-screen">
+      
+      {/* ── Breadcrumb ───── */}
+      <div className="flex items-center text-sm font-semibold text-gray-400 mb-6">
+        <span className="text-green-600 uppercase tracking-wider">Admin</span>
+        <ChevronRight className="w-4 h-4 mx-1" />
+        <span className="text-green-600 font-bold">Manage Tokens</span>
+        <div className="ml-2 w-0.5 h-4 bg-green-500 skew-x-[-15deg]" />
+      </div>
 
-      {/* Search Bar */}
-      <div className="flex justify-between items-center mb-4">
-        <div className="relative w-2/3">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
-          <input
-            type="text"
-            placeholder="Search by name or description..."
-            className="w-full p-3 pl-10 border rounded-lg focus:ring-2 focus:ring-blue-500"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+      {/* Header and Controls */}
+      <div className="bg-white rounded-2xl p-6 shadow-sm mb-6 border border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div>
+          <h2 className="text-xl font-bold text-[#1b2559]">Manage Tokens</h2>
+          <p className="text-sm text-gray-400 mt-1">Create and configure token subscription plans</p>
         </div>
-        <button
-          onClick={() => setShowModal(true)}
-          className="bg-blue-500 text-white p-3 rounded-lg flex items-center gap-2"
-        >
-          <PlusCircle /> Add Token
-        </button>
+        
+        <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+          <div className="relative w-full sm:w-64">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search tokens..."
+              className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all text-sm outline-none bg-gray-50 hover:bg-white"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <button
+            onClick={() => setShowModal(true)}
+            className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors text-sm shadow-sm"
+          >
+            <PlusCircle className="w-4 h-4" /> Add Token
+          </button>
+        </div>
       </div>
 
       {/* Add Token Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-semibold">Add New Token</h3>
+        <div className="fixed inset-0 bg-gray-900/60 backdrop-blur-sm flex justify-center items-center z-[100] p-4">
+          <div className="bg-white p-6 rounded-3xl shadow-xl w-full max-w-md transform transition-all duration-300">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-xl font-bold text-[#1b2559]">Add New Token</h3>
               <button
                 onClick={() => setShowModal(false)}
-                className="text-gray-600"
+                className="text-gray-400 hover:bg-gray-100 hover:text-gray-600 p-2 rounded-full transition-colors"
               >
-                <X />
+                <X className="w-5 h-5"/>
               </button>
             </div>
-            <div className="grid grid-cols-1 gap-3">
+            <div className="grid grid-cols-1 gap-4">
               {Object.keys(newToken).map((key) => (
-                <input
-                  key={key}
-                  type={
-                    key === "price" || key === "duration_day"
-                      ? "number"
-                      : "text"
-                  }
-                  placeholder={key.replace("_", " ").toUpperCase()}
-                  value={newToken[key]}
-                  onChange={(e) =>
-                    setNewToken({ ...newToken, [key]: e.target.value })
-                  }
-                  className="border p-2 rounded"
-                />
+                <div key={key}>
+                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1 ml-1">{key.replace("_", " ")}</label>
+                  <input
+                    type={key === "price" || key === "duration_day" ? "number" : "text"}
+                    placeholder={`Enter ${key.replace("_", " ")}`}
+                    value={newToken[key]}
+                    onChange={(e) => setNewToken({ ...newToken, [key]: e.target.value })}
+                    className="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all bg-gray-50 text-sm"
+                  />
+                </div>
               ))}
               <button
                 onClick={handleAddToken}
-                className="bg-blue-500 text-white p-2 rounded flex items-center justify-center gap-2"
+                className="mt-2 w-full bg-green-600 hover:bg-green-700 text-white p-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors"
               >
-                <PlusCircle /> Add Token
+                <PlusCircle className="w-5 h-5" /> Save Token
               </button>
             </div>
           </div>
@@ -183,140 +191,151 @@ const AdminTokensDetails = () => {
 
       {/* Edit Token Modal */}
       {showEditModal && editingToken && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-semibold">Edit Token</h3>
+        <div className="fixed inset-0 bg-gray-900/60 backdrop-blur-sm flex justify-center items-center z-[100] p-4">
+          <div className="bg-white p-6 rounded-3xl shadow-xl w-full max-w-md transform transition-all duration-300">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-xl font-bold text-[#1b2559]">Edit Token #{editingToken.token_id}</h3>
               <button
                 onClick={() => setShowEditModal(false)}
-                className="text-gray-600"
+                className="text-gray-400 hover:bg-gray-100 hover:text-gray-600 p-2 rounded-full transition-colors"
               >
-                <X />
+                <X className="w-5 h-5"/>
               </button>
             </div>
-            <div className="grid grid-cols-1 gap-3">
-              <input
-                type="text"
-                placeholder="NAME"
-                value={editingToken.name}
-                onChange={(e) =>
-                  setEditingToken({ ...editingToken, name: e.target.value })
-                }
-                className="border p-2 rounded"
-              />
-              <input
-                type="number"
-                placeholder="PRICE"
-                value={editingToken.price}
-                onChange={(e) =>
-                  setEditingToken({ ...editingToken, price: e.target.value })
-                }
-                className="border p-2 rounded"
-              />
-              <input
-                type="number"
-                placeholder="DURATION DAY"
-                value={editingToken.duration_day}
-                onChange={(e) =>
-                  setEditingToken({
-                    ...editingToken,
-                    duration_day: e.target.value,
-                  })
-                }
-                className="border p-2 rounded"
-              />
-              <input
-                type="text"
-                placeholder="DESCRIPTION"
-                value={editingToken.description}
-                onChange={(e) =>
-                  setEditingToken({
-                    ...editingToken,
-                    description: e.target.value,
-                  })
-                }
-                className="border p-2 rounded"
-              />
-              <select
-                value={editingToken.status}
-                onChange={(e) =>
-                  setEditingToken({
-                    ...editingToken,
-                    status: parseInt(e.target.value),
-                  })
-                }
-                className="border p-2 rounded"
-              >
-                <option value={0}>Active</option>
-                <option value={1}>Inactive</option>
-              </select>
+            <div className="grid grid-cols-1 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1 ml-1">Name</label>
+                <input
+                  type="text"
+                  value={editingToken.name}
+                  onChange={(e) => setEditingToken({ ...editingToken, name: e.target.value })}
+                  className="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-gray-50 text-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1 ml-1">Price (₹)</label>
+                <input
+                  type="number"
+                  value={editingToken.price}
+                  onChange={(e) => setEditingToken({ ...editingToken, price: e.target.value })}
+                  className="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-gray-50 text-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1 ml-1">Duration (Days)</label>
+                <input
+                  type="number"
+                  value={editingToken.duration_day}
+                  onChange={(e) => setEditingToken({ ...editingToken, duration_day: e.target.value })}
+                  className="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-gray-50 text-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1 ml-1">Description</label>
+                <input
+                  type="text"
+                  value={editingToken.description}
+                  onChange={(e) => setEditingToken({ ...editingToken, description: e.target.value })}
+                  className="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-gray-50 text-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1 ml-1">Status</label>
+                <select
+                  value={editingToken.status}
+                  onChange={(e) => setEditingToken({ ...editingToken, status: parseInt(e.target.value) })}
+                  className="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-gray-50 text-sm appearance-none"
+                >
+                  <option value={0}>Active</option>
+                  <option value={1}>Inactive</option>
+                </select>
+              </div>
               <button
                 onClick={handleUpdateToken}
-                className="bg-green-500 text-white p-2 rounded flex items-center justify-center gap-2"
+                className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors shadow-md shadow-blue-500/20"
               >
-                <Check /> Update Token
+                <Check className="w-5 h-5"/> Update Token
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Tokens Table */}
+      {/* Main Table */}
       {loading ? (
-        <p className="text-center text-lg font-medium text-gray-700">
-          Loading tokens...
-        </p>
+        <div className="animate-pulse space-y-4">
+          <div className="h-12 bg-white rounded-2xl shadow-sm"></div>
+          <div className="h-64 bg-white rounded-2xl shadow-sm"></div>
+        </div>
       ) : error ? (
-        <p className="text-center text-lg font-medium text-red-600">{error}</p>
+        <div className="bg-red-50 text-red-600 border border-red-200 p-4 rounded-2xl text-sm font-medium text-center">
+          {error}
+        </div>
       ) : filteredTokens.length === 0 ? (
-        <p className="text-center text-lg font-medium text-gray-600">
-          No tokens found.
-        </p>
+        <div className="bg-white rounded-2xl p-10 shadow-sm border border-gray-100 text-center">
+          <p className="text-gray-400 text-sm font-medium">No tokens found.</p>
+        </div>
       ) : (
-        <div className="overflow-x-auto shadow-md rounded-lg">
-          <table className="w-full border border-gray-300 bg-white rounded-lg">
-            <thead className="bg-gray-800 text-white">
-              <tr>
-                <th className="p-3 text-left">ID</th>
-                <th className="p-3 text-left">Name</th>
-                <th className="p-3 text-left">Price ($)</th>
-                <th className="p-3 text-left">Duration (Days)</th>
-                <th className="p-3 text-left">Description</th>
-                <th className="p-3 text-left">Status</th>
-                <th className="p-3 text-left">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredTokens.map((token) => (
-                <tr key={token.token_id} className="border-b hover:bg-gray-100">
-                  <td className="p-3">{token.token_id}</td>
-                  <td className="p-3">{token.name}</td>
-                  <td className="p-3">${parseFloat(token.price).toFixed(2)}</td>
-                  <td className="p-3">{token.duration_day} days</td>
-                  <td className="p-3">{token.description}</td>
-                  <td className="p-3">
-                    <span
-                      className={`px-2 py-1 rounded-md text-sm font-medium ${
-                        token.status === 0
-                          ? "bg-green-200 text-green-700"
-                          : "bg-red-200 text-red-700"
-                      }`}
-                    >
-                      {token.status === 0 ? "Active" : "Inactive"}
-                    </span>
-                  </td>
-                  <td className="p-3">
-                    <button
-                      className="p-2 bg-blue-500 text-white rounded-full"
-                      onClick={() => handleEditToken(token)}
-                    >
-                      <Edit size={16} />
-                    </button>
-                  </td>
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-gray-50 text-gray-400 text-xs font-bold uppercase tracking-wide border-b border-gray-100">
+                  <th className="p-4 px-6 w-20">ID</th>
+                  <th className="p-4">Name</th>
+                  <th className="p-4 text-right">Price (₹)</th>
+                  <th className="p-4 text-center">Duration</th>
+                  <th className="p-4 max-w-xs">Description</th>
+                  <th className="p-4 text-center">Status</th>
+                  <th className="p-4 text-center">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {filteredTokens.map((token) => (
+                  <tr key={token.token_id} className="border-b border-gray-50 hover:bg-gray-50/60 transition-colors text-sm">
+                    <td className="p-4 px-6">
+                      <span className="flex items-center gap-1 text-gray-500 font-medium">
+                        <Hash className="w-3 h-3 text-gray-300" />
+                        {token.token_id}
+                      </span>
+                    </td>
+                    <td className="p-4 font-semibold text-gray-800">{token.name}</td>
+                    <td className="p-4 text-right tabular-nums font-medium text-gray-600">
+                      ₹{parseFloat(token.price).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                    </td>
+                    <td className="p-4 text-center text-gray-600">
+                      <span className="bg-gray-100 px-2.5 py-1 rounded-md text-xs font-medium">
+                        {token.duration_day} Days
+                      </span>
+                    </td>
+                    <td className="p-4 text-gray-500 truncate max-w-xs" title={token.description}>
+                      {token.description}
+                    </td>
+                    <td className="p-4 text-center">
+                       <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide border ${
+                        token.status === 0
+                          ? "bg-green-50 text-green-700 border-green-200"
+                          : "bg-red-50 text-red-700 border-red-200"
+                      }`}>
+                        {token.status === 0 ? "Active" : "Inactive"}
+                      </span>
+                    </td>
+                    <td className="p-4 text-center">
+                      <div className="flex justify-center">
+                        <button
+                          onClick={() => handleEditToken(token)}
+                          className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors"
+                          title="Edit Token"
+                        >
+                          <Edit className="w-5 h-5" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>

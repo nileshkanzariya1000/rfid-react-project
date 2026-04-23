@@ -23,7 +23,7 @@ export const login = async (username, password) => {
 };
 export const updateAdminPassword = async (username, oldPassword, newPassword) => {
   try {
-    const url = `${config.baseURL}/   `;
+    const url = `${config.baseURL}/adminChangePassword`;
     const requestBody = { 
       username, // Simplified object property shorthand
       current_password: oldPassword, 
@@ -173,4 +173,29 @@ export const fetchPurchasedTokens = async () => {
   }
 };
 
+export const updatePurchasedTokenStatus = async (ct_id, status) => {
+  const response = await fetch(`${config.baseURL}/updatePurchasedTokenStatus`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ct_id, status }),
+  });
 
+  if (!response.ok) throw new Error("Failed to update purchased token status");
+
+  return await response.json();
+};
+
+export const fetchAdminDashboardStats = async () => {
+  try {
+    const response = await fetch(`${config.baseURL}/getAdminDashboardStats`);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching admin dashboard stats:", error);
+    throw error;
+  }
+};

@@ -25,6 +25,7 @@ import ManageUsers from "./AdminPanal/components/manageUsers";
 import AdminEditPassword from "./AdminPanal/components/adminEditPassword";
 import TokensDetails from "./AdminPanal/components/adminTokensDetails";
 import PurchasedTokens from "./AdminPanal/components/PurchasedTokens";
+import AdminDashboardHome from "./AdminPanal/components/AdminDashboardHome";
 import UserSubject from "./UserPanal/components/userSubject";
 import ViewAttendance from "./UserPanal/components/viewAttendance";
 import DashboardHome from "./UserPanal/components/dashboardHome";
@@ -91,6 +92,7 @@ function App() {
 
         {/* Admin Routes */}
         <Route path="/AdminDashboard" element={<AdminDashboard />}>
+          <Route index element={<AdminDashboardHome />} />
           <Route path="AdminEditPassword" element={<AdminEditPassword />} />
           <Route path="ManageUsers" element={<ManageUsers />} />
           <Route path="ManageClients" element={<ManageClients />} />

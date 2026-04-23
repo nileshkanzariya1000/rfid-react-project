@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Cookies from "js-cookie";
 import { updateAdminPassword } from "../service/api";
+import { ChevronRight, Key, Shield, CheckCircle, AlertCircle } from "lucide-react";
 
 const AdminEditPassword = () => {
-  // State variables for password fields
   const adminData = Cookies.get("admin_data");
     
     // If no admin data is found, redirect to login
@@ -15,7 +15,7 @@ const AdminEditPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [loading, setLoading] = useState(false); // State for button disable
+  const [loading, setLoading] = useState(false);
 
   // Retrieve username from cookies
   const storedUserData = Cookies.get("admin_data");
@@ -55,7 +55,6 @@ const AdminEditPassword = () => {
     try {
       setLoading(true); // Disable button
       const response = await updateAdminPassword(username, oldPassword, newPassword);
-      console.log("API Response:", response);
 
       if (response && response.success) {
         setSuccessMessage("Password updated successfully!");
@@ -74,50 +73,107 @@ const AdminEditPassword = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg mt-[-50px]">
-        <h2 className="text-xl font-semibold mb-4">Change Password</h2>
+    <div className="p-5 lg:p-8 font-sans text-gray-800 bg-[#f4f7fe] min-h-screen">
+      
+      {/* ── Breadcrumb ───── */}
+      <div className="flex items-center text-sm font-semibold text-gray-400 mb-6">
+        <span className="text-green-600 uppercase tracking-wider">Admin</span>
+        <ChevronRight className="w-4 h-4 mx-1" />
+        <span className="text-green-600 font-bold">Security Settings</span>
+        <div className="ml-2 w-0.5 h-4 bg-green-500 skew-x-[-15deg]" />
+      </div>
 
-        {/* Error and Success Messages */}
-        {error && <p className="text-red-500 text-center">{error}</p>}
-        {successMessage && <p className="text-green-500 text-center">{successMessage}</p>}
+      <div className="max-w-2xl mx-auto mt-8">
+        
+        {/* Header content */}
+        <div className="mb-8 text-center">
+          <div className="bg-white w-16 h-16 rounded-2xl shadow-sm flex items-center justify-center mx-auto mb-4 border border-gray-100">
+            <Shield className="w-8 h-8 text-green-600" />
+          </div>
+          <h2 className="text-2xl font-extrabold text-[#1b2559]">Change Password</h2>
+          <p className="text-gray-500 mt-2 text-sm">Update your admin credentials securely.</p>
+        </div>
 
-        <form onSubmit={handleUpdatePassword}>
-          <label className="block mb-2">Old Password</label>
-          <input
-            type="password"
-            placeholder="Enter your old password"
-            className="w-full p-2 border rounded mb-4"
-            value={oldPassword}
-            onChange={(e) => setOldPassword(e.target.value)}
-          />
+        {/* Card wrapper */}
+        <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
 
-          <label className="block mb-2">New Password</label>
-          <input
-            type="password"
-            placeholder="Enter new password"
-            className="w-full p-2 border rounded mb-4"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
+          {/* Alert Messages */}
+          {error && (
+            <div className="mb-6 bg-red-50 text-red-600 border border-red-200 p-4 rounded-xl text-sm font-medium flex items-center gap-3">
+              <AlertCircle className="w-5 h-5 flex-shrink-0" />
+              {error}
+            </div>
+          )}
+          {successMessage && (
+            <div className="mb-6 bg-green-50 text-green-700 border border-green-200 p-4 rounded-xl text-sm font-medium flex items-center gap-3">
+              <CheckCircle className="w-5 h-5 flex-shrink-0" />
+              {successMessage}
+            </div>
+          )}
 
-          <label className="block mb-2">Confirm Password</label>
-          <input
-            type="password"
-            placeholder="Confirm new password"
-            className="w-full p-2 border rounded mb-4"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
+          <form onSubmit={handleUpdatePassword} className="space-y-5">
+            <div>
+              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2 ml-1">Old Password</label>
+              <div className="relative">
+                <input
+                  type="password"
+                  placeholder="Enter your current password"
+                  className="w-full border border-gray-200 p-3.5 pl-12 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all bg-gray-50 focus:bg-white text-sm"
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
+                />
+                <Key className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              </div>
+            </div>
 
-          <button
-            type="submit"
-            className={`w-full p-2 rounded ${loading ? "bg-gray-400" : "bg-green-500 text-white"}`}
-            disabled={loading}
-          >
-            {loading ? "Updating..." : "Change Password"}
-          </button>
-        </form>
+            <div>
+               <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2 ml-1">New Password</label>
+              <div className="relative">
+                <input
+                  type="password"
+                  placeholder="Enter new password (min. 6 chars)"
+                  className="w-full border border-gray-200 p-3.5 pl-12 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all bg-gray-50 focus:bg-white text-sm"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
+                 <Key className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              </div>
+            </div>
+
+            <div>
+               <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2 ml-1">Confirm New Password</label>
+              <div className="relative">
+                <input
+                  type="password"
+                  placeholder="Confirm your new password"
+                  className="w-full border border-gray-200 p-3.5 pl-12 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all bg-gray-50 focus:bg-white text-sm"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+                 <Key className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className={`mt-4 w-full p-4 rounded-xl font-bold flex justify-center items-center gap-2 transition-all shadow-md ${
+                loading 
+                  ? "bg-gray-300 text-gray-500 cursor-not-allowed shadow-none" 
+                  : "bg-green-600 hover:bg-green-700 text-white shadow-green-500/20"
+              }`}
+              disabled={loading}
+            >
+              {loading ? (
+                <>Updating...</>
+              ) : (
+                <>
+                  <CheckCircle className="w-5 h-5" />
+                  Update Password
+                </>
+              )}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

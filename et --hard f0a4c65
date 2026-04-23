@@ -1,0 +1,39 @@
+[33m534b24a[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Correct commit
+[33mf0a4c65[m complete public panal with redirect opation
+[33m85ab79a[m change in title name panal wise
+[33mcea8cc9[m csv dowbload and complete public panale
+[33mbe18387[m add csv download file for attendance record
+[33m6b4d7de[m small chnage in api.jsx file status hardcoder replace 1 with 0 for subject buy
+[33mdc4d27b[m seprate razar pay api
+[33m20c0184[m chnage active and deactivate action replace 1 with 0
+[33m1756ec3[m path chnage
+[33mbf5379c[m chnage userpanel with route and outlet view
+[33m6810e85[m Merge branch 'main' of https://github.com/nileshkanzariya1000/rfid-react-project
+[33mc96afbd[m add payment intigration
+[33ma4103d2[m manage cookies,fix position navbar
+[33me3f2d6a[m add token feature added
+[33mb934cd7[m managetokens,purchasedtokenadded
+[33me0b4c24[m admineditpassword,manageclient,manageusers added
+[33m1768a25[m client sidenavbar scroll problem solve , user  not found in subject at time user new add feuture is on comple. logout cookes cleate ok,withot login access denite dashboard ok.
+[33mc149981[m viewattendace complete ui for client
+[33m3d8b117[m complete updatetoken of client
+[33mf60b174[m add new subject done
+[33me496f09[m comple edit subject name
+[33m2e7a755[m Merge branch 'main' of https://github.com/nileshkanzariya1000/rfid-react-project
+[33md5266d4[m complete show subject details,complete user show list with edit and delete methid also implement both api and also add new user in subject
+[33m3cc9853[m admin dashboard added
+[33mc9ca072[m define route client user admin public
+[33m5e16896[m chnage in router in clientdashboard
+[33mbf94044[m add subject detslis page in UserDashboard and call one API subjectDetails for geting Degisnation and Rfid
+[33me08b3c5[m show token details in subject
+[33m60bacf4[m add subject details page in dashboard
+[33m4f330c1[m show Subject Name in clientSIdeNavbar
+[33ma02ca0e[m add ClientDashboard, ClientEditProfile, ClientEditPassword,ClientSideNavbar
+[33m9325b33[m add userdashboard with usersidenavbar and editprofile is done
+[33m1c28d1f[m add Cookes set if user ,admin and client login
+[33m0abbcc5[m Add Admin_ui login page
+[33mef22dd7[m home page and page redirection done
+[33mab9bfcd[m add ClientRegister and ClientLogin page
+[33md3520e9[m add userRegister ui page
+[33me1deb29[m add new foders client and admin and public
+[33m2128e3f[m initialite react project and add user login page
